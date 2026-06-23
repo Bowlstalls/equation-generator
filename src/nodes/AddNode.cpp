@@ -1,4 +1,6 @@
 ﻿#include "AddNode.h"
+
+#include <algorithm>
 using namespace equation_generator;
 
 AddNode::AddNode(std::vector<std::unique_ptr<Node>> list): Node(NodeType::AddNode, 1), list{std::move(list)} {}
@@ -33,16 +35,23 @@ std::unique_ptr<Node> AddNode::clone()
   return std::make_unique<AddNode>(cloneList(list));
 }
 
-
 std::unique_ptr<Node> AddNode::mutate(std::unique_ptr<Node> self, GeneratorParams &params)
 {
   mutateList(list, params);
-  int i1 = params.getRandomInt(0, list.size() - 1);
-  int i2 = params.getRandomInt(0, list.size() - 1);
-  while (i1 == i2) {
-    i2 = params.getRandomInt(0, list.size() - 1);
+  const int end = list.size() - 1;
+  if (end == 0) {
+    return self;
   }
-  list[i1] = std::move(list[i1]) + std::move(list[i2]);
-  list.erase(list.begin() + i2);
+  list[0] = std::move(list[0]) + std::move(list[end]);
+  list.erase(list.begin() + end);
+  std::ranges::shuffle(list, params.generator);
+  return self;
+}
+
+std::unique_ptr<Node> AddNode::negate(std::unique_ptr<Node> self)
+{
+  for (auto& term : list) {
+    term = term->negate(std::move(term));
+  }
   return self;
 }

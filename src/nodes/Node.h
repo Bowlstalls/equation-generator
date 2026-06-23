@@ -14,16 +14,18 @@ namespace equation_generator {
 
   class Node {
   public:
+    const NodeType type;
+    const int priority;
+
     virtual ~Node() = default;
 
     virtual std::unique_ptr<Node> add(std::unique_ptr<Node> self, std::unique_ptr<Node> other) = 0;
     virtual std::unique_ptr<Node> multiply(std::unique_ptr<Node> self, std::unique_ptr<Node> other) = 0;
+    virtual std::unique_ptr<Node> negate(std::unique_ptr<Node> self) = 0;
     virtual std::unique_ptr<Node> mutate(std::unique_ptr<Node> self, GeneratorParams &params) = 0;
+
     virtual std::string toString() = 0;
     virtual std::unique_ptr<Node> clone() = 0;
-
-    const NodeType type;
-    const int priority;
 
   protected:
     explicit Node(const NodeType type, const int priority): type{type}, priority{priority} {}
@@ -40,29 +42,28 @@ namespace equation_generator {
         std::make_move_iterator(other_list.begin()),
         std::make_move_iterator(other_list.end()));
     }
-    static std::string concatenate(const std::vector<std::unique_ptr<Node>>& list, const std::string& delimiter, int priority)
+    static std::string concatenate(const std::vector<std::unique_ptr<Node>>& list, const std::string& delimiter, const int priority)
     {
       auto iterator = list.begin();
       if (iterator == list.end()) {
         return "";
       }
-      std::string res;
-      if ((*iterator)->priority < priority) {
-        res += '(' + (*iterator)->toString() + ')';
-      } else {
-        res += (*iterator)->toString();
-      }
-
+      std::string res = getNext(iterator, priority);
       ++iterator;
+
       while (iterator < list.end()) {
         res += delimiter;
-        if ((*iterator)->priority < priority) {
-          res += '(' + (*iterator)->toString() + ')';
-        } else {
-          res += (*iterator)->toString();
-        }
-        ++iterator;
+        getNext(iterator, priority);
       }
+      return res;
+    }
+    static std::string getNext(std::vector<std::unique_ptr<Node>>::const_iterator iterator, const int priority)
+    {
+      std::string res = (*iterator)->toString();
+      if ((*iterator)->priority < priority) {
+        res = '(' + res + ')';
+      }
+      ++iterator;
       return res;
     }
     static std::vector<std::unique_ptr<Node>> cloneList(const std::vector<std::unique_ptr<Node>>& origin)
@@ -89,6 +90,10 @@ namespace equation_generator {
   inline std::unique_ptr<Node> operator*(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs)
   {
     return lhs->multiply(std::move(lhs), std::move(rhs));
+  }
+  inline std::unique_ptr<Node> operator-(std::unique_ptr<Node> self)
+  {
+    return self->negate(std::move(self));
   }
 }
 

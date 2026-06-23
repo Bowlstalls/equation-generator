@@ -1,7 +1,6 @@
-﻿
-#include "MultNode.h"
+﻿#include "MultNode.h"
 
-#include <bits/stl_tree.h>
+#include <algorithm>
 
 #include "AddNode.h"
 using namespace equation_generator;
@@ -25,6 +24,28 @@ std::unique_ptr<Node> MultNode::multiply(std::unique_ptr<Node> self, std::unique
   return self;
 }
 
+std::unique_ptr<Node> MultNode::mutate(std::unique_ptr<Node> self, GeneratorParams &params)
+{
+  mutateList(list, params);
+  const int end = list.size() - 1;
+  if (end == 0) {
+    return self;
+  }
+  if (list[0]->type != NodeType::AddNode && list[end]->type == NodeType::AddNode) {
+    std::swap(list[0], list[end]);
+  }
+  list[0] = std::move(list[0]) * std::move(list[end]);
+  list.erase(list.begin() + end);
+  std::ranges::shuffle(list, params.generator);
+  return self;
+}
+
+std::unique_ptr<Node> MultNode::negate(std::unique_ptr<Node> self)
+{
+  list[0]->negate(std::move(list[0]));
+  return self;
+}
+
 std::string MultNode::toString()
 {
   return concatenate(list, " * ", priority);
@@ -34,20 +55,3 @@ std::unique_ptr<Node> MultNode::clone()
 {
   return std::make_unique<MultNode>(cloneList(list));
 }
-
-std::unique_ptr<Node> MultNode::mutate(std::unique_ptr<Node> self, GeneratorParams &params)
-{
-  mutateList(list, params);
-  int i1 = params.getRandomInt(0, list.size() - 1);
-  int i2 = params.getRandomInt(0, list.size() - 1);
-  while (i1 == i2) {
-    i2 = params.getRandomInt(0, list.size() - 1);
-  }
-  if (list[i1]->type != NodeType::AddNode && list[i1]->type == NodeType::AddNode) {
-    std::swap(i1, i2);
-  }
-  list[i1] = std::move(list[i1]) * std::move(list[i2]);
-  list.erase(list.begin() + i2);
-  return self;
-}
-
