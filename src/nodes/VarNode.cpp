@@ -37,7 +37,7 @@ std::unique_ptr<Node> VarNode::mutate(std::unique_ptr<Node> self, GeneratorParam
   return std::make_unique<AddNode>(std::move(self), std::make_unique<VarNode>(name, otherValue, power));
 }
 
-std::string VarNode::toString()
+std::string VarNode::toString() const
 {
   std::string res = std::to_string(value) + name;
   if (power != 1) {
@@ -46,7 +46,7 @@ std::string VarNode::toString()
   return res;
 }
 
-std::unique_ptr<Node> VarNode::clone()
+std::unique_ptr<Node> VarNode::clone() const
 {
   return std::make_unique<VarNode>(*this);
 }

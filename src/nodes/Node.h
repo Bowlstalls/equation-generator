@@ -25,8 +25,8 @@ namespace equation_generator {
     virtual std::unique_ptr<Node> negate(std::unique_ptr<Node> self) = 0;
     virtual std::unique_ptr<Node> mutate(std::unique_ptr<Node> self, GeneratorParams &params) = 0;
 
-    virtual std::string toString() = 0;
-    virtual std::unique_ptr<Node> clone() = 0;
+    virtual std::string toString() const = 0;
+    virtual std::unique_ptr<Node> clone() const = 0;
 
   protected:
     explicit Node(const NodeType type, const int priority): type{type}, priority{priority} {}

@@ -38,12 +38,12 @@ std::unique_ptr<Node> ValueNode::mutate(std::unique_ptr<Node> self, GeneratorPar
   return std::make_unique<AddNode>(std::move(self), std::make_unique<ValueNode>(otherValue));
 }
 
-std::string ValueNode::toString()
+std::string ValueNode::toString() const
 {
   return std::to_string(value);
 }
 
-std::unique_ptr<Node> ValueNode::clone()
+std::unique_ptr<Node> ValueNode::clone() const
 {
   return std::make_unique<ValueNode>(*this);
 }

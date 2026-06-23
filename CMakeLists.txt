@@ -17,6 +17,7 @@ add_library(equation_generator STATIC
         src/Expression.h
         src/Generator.cpp
         src/Generator.h
+        src/Expression.cpp
 )
 
 add_subdirectory(tests)

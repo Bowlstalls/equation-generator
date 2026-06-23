@@ -10,7 +10,7 @@ namespace equation_generator {
   public:
     std::vector<std::unique_ptr<Node>> list;
 
-    explicit MultNode(std::vector<std::unique_ptr<Node>> list);
+    explicit MultNode(std::vector<std::unique_ptr<Node>>&& list);
     MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs);
 
     std::unique_ptr<Node> add(std::unique_ptr<Node> self, std::unique_ptr<Node> other) override;
@@ -18,8 +18,8 @@ namespace equation_generator {
     std::unique_ptr<Node> negate(std::unique_ptr<Node> self) override;
     std::unique_ptr<Node> mutate(std::unique_ptr<Node> self, GeneratorParams &params) override;
 
-    std::string toString() override;
-    std::unique_ptr<Node> clone() override;
+    std::string toString() const override;
+    std::unique_ptr<Node> clone() const override;
   };
 }
 

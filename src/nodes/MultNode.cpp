@@ -5,7 +5,7 @@
 #include "AddNode.h"
 using namespace equation_generator;
 
-MultNode::MultNode(std::vector<std::unique_ptr<Node>> list): Node(NodeType::MultNode, 2), list{std::move(list)} {}
+MultNode::MultNode(std::vector<std::unique_ptr<Node>>&& list): Node(NodeType::MultNode, 2), list{std::move(list)} {}
 
 MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): Node(NodeType::MultNode, 2)
 {
@@ -30,14 +30,17 @@ std::unique_ptr<Node> MultNode::mutate(std::unique_ptr<Node> self, GeneratorPara
     return self;
   }
   mutateList<MultNode>(*this, params);
-  if (list.size() < 2) {
-    return self;
+  if (list.size() == 1) {
+    return std::move(list[0]);
   }
   if (list[0]->type != NodeType::AddNode && list[1]->type == NodeType::AddNode) {
     std::swap(list[0], list[1]);
   }
   insertNode<MultNode>(*this, std::move(list[0]) * std::move(list[1]));
   list.erase(list.begin(), list.begin() + 2);
+  if (list.size() == 1) {
+    return std::move(list[0]);
+  }
   std::ranges::shuffle(list, params.generator);
   return self;
 }
@@ -49,12 +52,12 @@ std::unique_ptr<Node> MultNode::negate(std::unique_ptr<Node> self)
   return self;
 }
 
-std::string MultNode::toString()
+std::string MultNode::toString() const
 {
   return concatenate(list, " * ", priority);
 }
 
-std::unique_ptr<Node> MultNode::clone()
+std::unique_ptr<Node> MultNode::clone() const
 {
   return std::make_unique<MultNode>(cloneList(list));
 }
