@@ -1,5 +1,6 @@
 ﻿#ifndef INODE_H
 #define INODE_H
+#include <functional>
 #include <memory>
 #include <vector>
 #include "../generator.h"
@@ -31,16 +32,34 @@ namespace equation_generator {
     explicit Node(const NodeType type, const int priority): type{type}, priority{priority} {}
 
     template<typename T>
-    void insertNode(const NodeType type, std::vector<std::unique_ptr<Node>>& list, std::unique_ptr<Node> node)
+    static void insertNode(T& self, std::unique_ptr<Node> node)
     {
-      if (node->type != type) {
-        list.push_back(std::move(node));
+      if (node->type != self.type) {
+        self.list.push_back(std::move(node));
         return;
       }
       auto& other_list = static_cast<T&>(*node).list;
-      list.insert(list.end(),
+      self.list.insert(self.list.end(),
         std::make_move_iterator(other_list.begin()),
         std::make_move_iterator(other_list.end()));
+    }
+    template<typename T>
+    static void map(T& self, const std::function<std::unique_ptr<Node>(std::unique_ptr<Node>)> function)
+    {
+      auto& list = self.list;
+      const size_t size = list.size();
+      for (auto i = 0; i < size; i++) {
+        insertNode<T>(self, function(std::move(list[i])));
+      }
+      list.erase(list.begin(), list.begin() + size);
+    }
+    template<typename T>
+    static void mutateList(T& self, GeneratorParams& params)
+    {
+      auto lambda = [&params](std::unique_ptr<Node> node) -> std::unique_ptr<Node> {
+        return node->mutate(std::move(node), params);
+      };
+      map<T>(self, lambda);
     }
     static std::string concatenate(const std::vector<std::unique_ptr<Node>>& list, const std::string& delimiter, const int priority)
     {
@@ -49,15 +68,13 @@ namespace equation_generator {
         return "";
       }
       std::string res = getNext(iterator, priority);
-      ++iterator;
 
       while (iterator < list.end()) {
-        res += delimiter;
-        getNext(iterator, priority);
+        res += delimiter + getNext(iterator, priority);
       }
       return res;
     }
-    static std::string getNext(std::vector<std::unique_ptr<Node>>::const_iterator iterator, const int priority)
+    static std::string getNext(std::vector<std::unique_ptr<Node>>::const_iterator& iterator, const int priority)
     {
       std::string res = (*iterator)->toString();
       if ((*iterator)->priority < priority) {
@@ -73,14 +90,6 @@ namespace equation_generator {
         res.push_back(i->clone());
       }
       return res;
-    }
-    static void mutateList(std::vector<std::unique_ptr<Node>>& list, GeneratorParams &params)
-    {
-      for (auto& term : list) {
-        if (params.doMutate()) {
-          term = term->mutate(std::move(term), params);
-        }
-      }
     }
   };
   inline std::unique_ptr<Node> operator+(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs)

@@ -7,21 +7,22 @@ AddNode::AddNode(std::vector<std::unique_ptr<Node>> list): Node(NodeType::AddNod
 
 AddNode::AddNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): Node(NodeType::AddNode, 1)
 {
-  insertNode<AddNode>(NodeType::AddNode, list, std::move(lhs));
-  insertNode<AddNode>(NodeType::AddNode, list, std::move(rhs));
+  insertNode<AddNode>(*this, std::move(lhs));
+  insertNode<AddNode>(*this, std::move(rhs));
 }
 
 std::unique_ptr<Node> AddNode::add(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
 {
-  insertNode<AddNode>(NodeType::AddNode, list, std::move(other));
+  insertNode<AddNode>(*this, std::move(other));
   return self;
 }
 
-std::unique_ptr<Node> AddNode::multiply(std::unique_ptr<Node> self, const std::unique_ptr<Node> other)
+std::unique_ptr<Node> AddNode::multiply(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
 {
-  for (auto& term : list) {
-    term = term->multiply(std::move(term), other->clone());
-  }
+  auto lambda = [&other](std::unique_ptr<Node> node) -> std::unique_ptr<Node> {
+    return std::move(node) * other->clone();
+  };
+  map<AddNode>(*this, lambda);
   return self;
 }
 
@@ -37,21 +38,24 @@ std::unique_ptr<Node> AddNode::clone()
 
 std::unique_ptr<Node> AddNode::mutate(std::unique_ptr<Node> self, GeneratorParams &params)
 {
-  mutateList(list, params);
-  const int end = list.size() - 1;
-  if (end == 0) {
+  if (!params.doMutate()) {
     return self;
   }
-  list[0] = std::move(list[0]) + std::move(list[end]);
-  list.erase(list.begin() + end);
+  mutateList<AddNode>(*this, params);
+  if (list.size() < 2) {
+    return self;
+  }
+  insertNode<AddNode>(*this, std::move(list[0]) + std::move(list[1]));
+  list.erase(list.begin(), list.begin() + 2);
   std::ranges::shuffle(list, params.generator);
   return self;
 }
 
 std::unique_ptr<Node> AddNode::negate(std::unique_ptr<Node> self)
 {
-  for (auto& term : list) {
-    term = term->negate(std::move(term));
-  }
+  auto lambda = [](std::unique_ptr<Node> node) -> std::unique_ptr<Node> {
+    return -std::move(node);
+  };
+  map<AddNode>(*this, lambda);
   return self;
 }

@@ -9,8 +9,8 @@ MultNode::MultNode(std::vector<std::unique_ptr<Node>> list): Node(NodeType::Mult
 
 MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): Node(NodeType::MultNode, 2)
 {
-  insertNode<MultNode>(NodeType::MultNode, list, std::move(lhs));
-  insertNode<MultNode>(NodeType::MultNode, list, std::move(rhs));
+  insertNode<MultNode>(*this, std::move(lhs));
+  insertNode<MultNode>(*this, std::move(rhs));
 }
 
 std::unique_ptr<Node> MultNode::add(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
@@ -20,29 +20,32 @@ std::unique_ptr<Node> MultNode::add(std::unique_ptr<Node> self, std::unique_ptr<
 
 std::unique_ptr<Node> MultNode::multiply(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
 {
-  insertNode<MultNode>(NodeType::MultNode, list, std::move(other));
+  insertNode<MultNode>(*this, std::move(other));
   return self;
 }
 
 std::unique_ptr<Node> MultNode::mutate(std::unique_ptr<Node> self, GeneratorParams &params)
 {
-  mutateList(list, params);
-  const int end = list.size() - 1;
-  if (end == 0) {
+  if (!params.doMutate()) {
     return self;
   }
-  if (list[0]->type != NodeType::AddNode && list[end]->type == NodeType::AddNode) {
-    std::swap(list[0], list[end]);
+  mutateList<MultNode>(*this, params);
+  if (list.size() < 2) {
+    return self;
   }
-  list[0] = std::move(list[0]) * std::move(list[end]);
-  list.erase(list.begin() + end);
+  if (list[0]->type != NodeType::AddNode && list[1]->type == NodeType::AddNode) {
+    std::swap(list[0], list[1]);
+  }
+  insertNode<MultNode>(*this, std::move(list[0]) * std::move(list[1]));
+  list.erase(list.begin(), list.begin() + 2);
   std::ranges::shuffle(list, params.generator);
   return self;
 }
 
 std::unique_ptr<Node> MultNode::negate(std::unique_ptr<Node> self)
 {
-  list[0]->negate(std::move(list[0]));
+  insertNode<MultNode>(*this, -std::move(list[0]));
+  list.erase(list.begin());
   return self;
 }
 
