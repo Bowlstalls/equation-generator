@@ -14,8 +14,8 @@ power{power}
 std::unique_ptr<Node> VarNode::add(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
 {
   if (other->type == NodeType::VarNode) {
-    if (power == static_cast<VarNode&>(*other).power) {
-      return std::make_unique<MultNode>(std::make_unique<ValueNode>(2), std::move(self));
+    if (const auto other_var = static_cast<VarNode&>(*other); power == other_var.power) {
+      value += other_var.value;
     }
   }
   return std::make_unique<AddNode>(std::move(self), std::move(other));

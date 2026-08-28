@@ -12,7 +12,11 @@ Expression::Expression(const std::vector<int>& roots): roots{roots}
   for (const auto root : roots) {
     list.push_back(std::make_unique<AddNode>(x->clone(), std::make_unique<ValueNode>(-root)));
   }
-  lhs = std::make_unique<MultNode>(std::move(list));
+  if (list.size() == 1) {
+    lhs = std::move(list[0]);
+  } else {
+    lhs = std::make_unique<MultNode>(std::move(list));
+  }
   rhs = std::make_unique<ValueNode>(0);
 }
 
