@@ -1,16 +1,17 @@
 ﻿#include <iostream>
 
-#include "../src/Expression.h"
+#include "../src/generator/Generator.h"
+#include "../src/generator/settings.h"
 using namespace equation_generator;
 
 int main()
 {
-  GeneratorParams params(1, {5, 1.5, 0}, {1, 1, 1});
-  Expression expr(std::vector{1});
-  std::cout << "Initial: " << expr.toString() << "\n";
-  expr.mutate(params);
-  std::cout << "First Pass: " << expr.toString() << "\n";
-  expr.mutate(params);
-  std::cout << "Second Pass: " << expr.toString() << "\n";
-  expr.mutate(params);
-}
+  const Settings settings {
+    .variableName = "x",
+    .values = Settings::ValueSettings{.max = 40, .lowBias = 2, .negativeChance = 0.3},
+    .roots = Settings::ValueSettings{.max = 5, .lowBias = 2, .negativeChance = 0.3},
+    .powers = Settings::ValueSettings{.max = 2, .lowBias = 1, .negativeChance = 0}
+  };
+  const Generator generator(settings);
+  std::cout << generator.nodeGenerator.generateOperation(5)->toString();
+};
