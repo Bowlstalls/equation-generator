@@ -6,18 +6,26 @@ set(CMAKE_CXX_STANDARD 20)
 add_library(equation_generator STATIC
         src/nodes/Node.h
         src/nodes/ValueNode.h
-        src/nodes/VarNode.h
-        src/nodes/AddNode.h
-        src/nodes/MultNode.h
+        src/nodes/operations/AddNode.h
+        src/nodes/operations/MultNode.h
         src/nodes/ValueNode.cpp
-        src/nodes/VarNode.cpp
-        src/nodes/AddNode.cpp
-        src/nodes/MultNode.cpp
-        src/Expression.cpp
-        src/Expression.h
-        src/Generator.cpp
-        src/Generator.h
-        src/Expression.cpp
+        src/nodes/operations/AddNode.cpp
+        src/nodes/operations/MultNode.cpp
+        src/generator/Expression.cpp
+        src/generator/Expression.h
+        src/generator/Generator.cpp
+        src/generator/Generator.h
+        src/generator/Expression.cpp
+        src/nodes/operations/OperationNode.cpp
+        src/nodes/operations/OperationNode.h
+        src/generator/operators/NodeGenerator.cpp
+        src/generator/operators/NodeGenerator.h
+        src/generator/settings.h
+        src/generator/random.h
+        src/nodes/NodeType.h
+        src/generator/random.cpp
+        src/generator/operators/NodeOptimizer.cpp
+        src/generator/operators/NodeOptimizer.h
 )
 
 add_subdirectory(tests)
