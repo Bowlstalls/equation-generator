@@ -12,7 +12,6 @@ using namespace equation_generator;
 NodeOptimizer::NodeOptimizer(Generator& generator): random(generator.random), settings(generator.settings) {}
 
 NodeOptimizer::NodeOptimizer(Random& random, const Settings& settings): random(random), settings(settings) {}
-}
 
 std::unique_ptr<Node> NodeOptimizer::optimize(std::unique_ptr<Node> origin) const
 {
