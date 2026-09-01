@@ -28,29 +28,36 @@ std::unique_ptr<Node> NodeOptimizer::optimizeValueNode(std::unique_ptr<Node> nod
 
 std::unique_ptr<Node> NodeOptimizer::optimizeAddNode(std::unique_ptr<Node> node) const
 {
+  const auto start = node->toString();
   auto& multNode = static_cast<MultNode&>(*node);
   std::vector<std::unique_ptr<Node>> newList;
   std::map<int, ValueNode> values;
+
+  auto insertNode = [&](std::unique_ptr<Node> item) {
+    if (item->type != NodeType::ValueNode) {
+      newList.push_back(std::move(item));
+      return;
+    }
+    if (auto& valueNode = static_cast<ValueNode&>(*item); !values.contains(valueNode.power)) {
+      values.emplace(valueNode.power, valueNode);
+    } else {
+      values.at(valueNode.power) += valueNode;
+    }
+  };
 
   for (auto& item : multNode.list) {
     auto optimized = optimize(std::move(item));
     if (!optimized) {
       continue;
     }
-    if (optimized->type == NodeType::ValueNode) {
-      if (auto& valueNode = static_cast<ValueNode&>(*optimized); !values.contains(valueNode.power)) {
-        values.emplace(valueNode.power, valueNode);
-      } else {
-        values.at(valueNode.power) += valueNode;
-      }
-    } else if (optimized->type == NodeType::AddNode) {
+    if (optimized->type == NodeType::AddNode) {
       auto& otherAddNode = static_cast<AddNode&>(*optimized);
       for (auto& otherItem : otherAddNode.list) {
-        newList.push_back(std::move(otherItem));
+        insertNode(std::move(otherItem));
       }
-    } else {
-      newList.push_back(std::move(optimized));
+      continue;
     }
+    insertNode(std::move(optimized));
   }
   for (auto [_, valueNode] : values) {
     if (valueNode.value != 0) {
@@ -64,33 +71,44 @@ std::unique_ptr<Node> NodeOptimizer::optimizeAddNode(std::unique_ptr<Node> node)
     return std::move(newList[0]);
   }
   random.shuffle<std::unique_ptr<Node>>(newList);
-  return std::make_unique<MultNode>(std::move(newList));
+  auto res = std::make_unique<AddNode>(std::move(newList));
+  return res;
 }
 
 std::unique_ptr<Node> NodeOptimizer::optimizeMultNode(std::unique_ptr<Node> node) const
 {
+  const auto start = node->toString();
   auto& multNode = static_cast<MultNode&>(*node);
   std::vector<std::unique_ptr<Node>> newList;
   auto value = ValueNode(settings.variableName, 1, 0);
+
+  auto insertNode = [&](std::unique_ptr<Node> item) {
+    if (item->type != NodeType::ValueNode) {
+      newList.push_back(std::move(item));
+      return;
+    }
+    const auto& valueNode = static_cast<ValueNode&>(*item);
+    value *= valueNode;
+  };
 
   for (auto& item : multNode.list) {
     auto optimized = optimize(std::move(item));
     if (!optimized) {
       return nullptr;
     }
-    if (optimized->type == NodeType::ValueNode) {
-      const auto& valueNode = static_cast<ValueNode&>(*optimized);
-      value *= valueNode;
-    } else if (optimized->type == NodeType::MultNode) {
+    if (optimized->type == NodeType::MultNode) {
       auto& otherMultNode = static_cast<MultNode&>(*optimized);
       for (auto& otherItem : otherMultNode.list) {
-        newList.push_back(std::move(otherItem));
+        insertNode(std::move(otherItem));
       }
-    } else {
-      newList.push_back(std::move(optimized));
+      continue;
     }
+    insertNode(std::move(optimized));
   }
-  if (value.value != 0) {
+  if (value.value == 0) {
+    return nullptr;
+  }
+  if (value.value != 1 || value.power != 0) {
     newList.push_back(std::make_unique<ValueNode>(value));
   }
   if (newList.size() == 0) {
@@ -100,5 +118,6 @@ std::unique_ptr<Node> NodeOptimizer::optimizeMultNode(std::unique_ptr<Node> node
     return std::move(newList[0]);
   }
   random.shuffle<std::unique_ptr<Node>>(newList);
-  return std::make_unique<MultNode>(std::move(newList));
+  auto res = std::make_unique<MultNode>(std::move(newList));
+  return res;
 }
