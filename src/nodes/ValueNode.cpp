@@ -1,46 +1,69 @@
 ﻿#include "ValueNode.h"
-#include "AddNode.h"
-#include "MultNode.h"
+
+#include <utility>
+#include "operations/AddNode.h"
+#include "operations/MultNode.h"
 
 using namespace equation_generator;
 
-ValueNode::ValueNode(const int value): Node(NodeType::ValueNode, 10), value{value} {}
-ValueNode::ValueNode(const NodeType type, const int value): Node(type, 10), value{value} {}
+ValueNode::ValueNode(const int value): Node(NodeType::ValueNode), value(value) {}
 
-std::unique_ptr<Node> ValueNode::add(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
+ValueNode::ValueNode(std::string name, const int value, const int power):
+Node(NodeType::ValueNode),
+value(value),
+power(power),
+name(std::move(name))
+{}
+
+ValueNode ValueNode::operator+(const ValueNode& other) const
 {
-  if (other->type == NodeType::ValueNode) {
-    value += static_cast<ValueNode&>(*other).value;
-    return self;
+  if (power != other.power) {
+    throw std::invalid_argument("Cannot add values with different power");
   }
-  return std::make_unique<AddNode>(std::move(self), std::move(other));
-}
-
-std::unique_ptr<Node> ValueNode::multiply(std::unique_ptr<Node> self, std::unique_ptr<Node> other)
-{
-  if (other->type == NodeType::ValueNode) {
-    value *= static_cast<ValueNode&>(*other).value;
-    return self;
+  if (name != other.name) {
+    throw std::invalid_argument("Cannot add two different variables");
   }
-  return std::make_unique<MultNode>(std::move(self), std::move(other));
+  return ValueNode(name, value + other.value, power);
 }
 
-std::unique_ptr<Node> ValueNode::negate(std::unique_ptr<Node> self)
+ValueNode ValueNode::operator-(const ValueNode& other) const
 {
-  value -= 1;
-  return self;
+  if (power != other.power) {
+    throw std::invalid_argument("Cannot add values with different power");
+  }
+  if (name != other.name) {
+    throw std::invalid_argument("Cannot add two different variables");
+  }
+  return ValueNode(name, value - other.value, power);
 }
 
-std::unique_ptr<Node> ValueNode::mutate(std::unique_ptr<Node> self, GeneratorParams &params)
+ValueNode ValueNode::operator*(const ValueNode& other) const
 {
-  int otherValue = params.getRandomValue();
-  value -= otherValue;
-  return std::make_unique<AddNode>(std::move(self), std::make_unique<ValueNode>(otherValue));
+  if (name != other.name) {
+    throw std::invalid_argument("Cannot add two different variables");
+  }
+  return ValueNode(name, value * other.value, power + other.power);
+}
+
+ValueNode ValueNode::operator-() const
+{
+  return ValueNode(name, -value, power);
 }
 
 std::string ValueNode::toString() const
 {
-  return std::to_string(value);
+  if (!power) {
+    return std::to_string(value);
+  }
+  std::string res;
+  if (value != 1) {
+    res += std::to_string(value);
+  }
+  res += name;
+  if (power != 1) {
+    res += '^' + std::to_string(power);
+  }
+  return res;
 }
 
 std::unique_ptr<Node> ValueNode::clone() const

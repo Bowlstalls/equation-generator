@@ -1,25 +1,25 @@
-﻿#ifndef VALUENODE_H
-#define VALUENODE_H
+﻿#ifndef EQUATION_GENERATOR_VALUENODE_H
+#define EQUATION_GENERATOR_VALUENODE_H
 
 #include "Node.h"
 
 namespace equation_generator {
-  class ValueNode: public Node {
+  class ValueNode final : public Node {
   public:
     int value;
+    int power = 0;
+    std::string name;
 
     explicit ValueNode(int value);
+    explicit ValueNode(std::string name, int value = 1, int power = 1);
 
-    std::unique_ptr<Node> add(std::unique_ptr<Node> self, std::unique_ptr<Node> other) override;
-    std::unique_ptr<Node> multiply(std::unique_ptr<Node> self, std::unique_ptr<Node> other) override;
-    std::unique_ptr<Node> negate(std::unique_ptr<Node> self) override;
-    std::unique_ptr<Node> mutate(std::unique_ptr<Node> self, GeneratorParams &params) override;
+    ValueNode operator+(const ValueNode& other) const;
+    ValueNode operator-(const ValueNode& other) const;
+    ValueNode operator*(const ValueNode& other) const;
+    ValueNode operator-() const;
 
-    std::string toString() const override;
-    std::unique_ptr<Node> clone() const override;
-
-  protected:
-    ValueNode(NodeType type, int value);
+    [[nodiscard]] std::string toString() const override;
+    [[nodiscard]] std::unique_ptr<Node> clone() const override;
   };
 }
 
