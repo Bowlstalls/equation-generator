@@ -29,7 +29,7 @@ static std::string getNext(const Node& node)
 std::string MultNode::toString() const
 {
   auto iterator = list.begin();
-  std::string res = (*iterator)->toString();
+  std::string res = getNext(**iterator);
   ++iterator;
   for (; iterator < list.end(); ++iterator) {
     res += " * " + getNext(**iterator);
@@ -43,5 +43,5 @@ std::unique_ptr<Node> MultNode::clone() const
   for (auto& i : list) {
     newList.push_back(i->clone());
   }
-  return std::make_unique<AddNode>(std::move(newList));
+  return std::make_unique<MultNode>(std::move(newList));
 }
