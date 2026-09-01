@@ -66,6 +66,12 @@ NodeType Random::getOperation()
   return keys.at(choose(values));
 }
 
+template<typename T>
+void Random::shuffle(std::vector<T>& list)
+{
+  std::ranges::shuffle(list, engine);
+}
+
 int Random::getInt(const Settings::ValueSettings params)
 {
   float raw = std::pow(getFloat(), params.lowBias) * static_cast<float>(params.max);

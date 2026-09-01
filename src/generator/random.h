@@ -8,10 +8,10 @@
 namespace equation_generator {
   class Random {
   public:
-    std::mt19937 generator;
+    std::mt19937 engine;
     Settings settings;
 
-    Random(const unsigned seed, const Settings& settings): generator{seed}, settings{settings} {}
+    Random(const unsigned seed, const Settings& settings): engine{seed}, settings{settings} {}
 
     int getInt(int min, int max);
     float getFloat();
