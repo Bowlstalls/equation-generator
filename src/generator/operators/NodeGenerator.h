@@ -1,0 +1,32 @@
+﻿#ifndef EQUATION_GENERATOR_NODES_H
+#define EQUATION_GENERATOR_NODES_H
+
+#include <memory>
+
+#include "../../nodes/NodeType.h"
+#include "../random.h"
+#include "../settings.h"
+#include "../../nodes/Node.h"
+
+namespace equation_generator {
+  class Generator;
+
+  class NodeGenerator {
+  public:
+    Random& random;
+    const Settings& settings;
+
+    explicit NodeGenerator(Generator& generator);
+    NodeGenerator(Random& random, const Settings& settings);
+
+    [[nodiscard]] std::unique_ptr<Node> generateOperation(int targetScore) const;
+    [[nodiscard]] std::unique_ptr<Node> generate(const NodeType& type, int targetScore) const;
+
+  private:
+    [[nodiscard]] std::unique_ptr<Node> generateValueNode(int) const;
+    [[nodiscard]] std::unique_ptr<Node> generateAddNode(int targetScore) const;
+    [[nodiscard]] std::unique_ptr<Node> generateMultNode(int targetScore) const;
+  };
+}
+
+#endif
