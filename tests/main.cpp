@@ -13,5 +13,9 @@ int main()
     .powers = Settings::ValueSettings{.max = 2, .lowBias = 1, .negativeChance = 0}
   };
   const Generator generator(settings);
-  std::cout << generator.nodeGenerator.generateOperation(5)->toString();
+  auto expr = generator.nodeGenerator.generateOperation(5);
+  auto res = generator.nodeOptimizer.optimize(expr->clone());
+  std::cout << expr->toString() << '\n';
+  std::cout << res->toString();
+
 };
