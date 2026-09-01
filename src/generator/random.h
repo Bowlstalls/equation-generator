@@ -1,5 +1,6 @@
 ﻿#ifndef EQUATION_GENERATOR_RANDOM_H
 #define EQUATION_GENERATOR_RANDOM_H
+#include <algorithm>
 #include <random>
 
 #include "../nodes/NodeType.h"
@@ -21,11 +22,17 @@ namespace equation_generator {
     int getPower();
     int choose(const std::vector<int>& weights);
     NodeType getOperation();
+
     template<typename T>
-    void shuffle(std::vector<T>& list);
+    void shuffle(std::vector<T>& list)
+    {
+      std::ranges::shuffle(list, engine);
+    }
 
   private:
-    int getInt(Settings::ValueSettings params);
+    int getInt(int min, int max, float lowBias);
+    int getInt(int min, const Settings::ValueSettings& preset);
+    float getFloat(float lowBias);
   };
 }
 

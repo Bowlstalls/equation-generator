@@ -25,17 +25,17 @@ bool Random::getBool(const float probability)
 
 int Random::getValue()
 {
-  return getInt(settings.values);
+  return  getInt(1, settings.values);
 }
 
 int Random::getRoot()
 {
-  return getInt(settings.roots);
+  return getInt(1, settings.roots);
 }
 
 int Random::getPower()
 {
-  return getInt(settings.powers);
+  return getInt(0, settings.powers);
 }
 
 int Random::choose(const std::vector<int>& weights)
@@ -45,7 +45,6 @@ int Random::choose(const std::vector<int>& weights)
     sum += weight;
   }
   auto res = getInt(0, sum - 1);
-  const auto ineedthat = res;
   for (auto i = 0; i < weights.size(); ++i) {
     res -= weights[i];
     if (res < 0) {
@@ -66,17 +65,21 @@ NodeType Random::getOperation()
   return keys.at(choose(values));
 }
 
-template<typename T>
-void Random::shuffle(std::vector<T>& list)
+int Random::getInt(const int min, const int max, const float lowBias)
 {
-  std::ranges::shuffle(list, engine);
+  return min + getFloat(lowBias) * (max - min);
 }
 
-int Random::getInt(const Settings::ValueSettings params)
+float Random::getFloat(const float lowBias)
 {
-  float raw = std::pow(getFloat(), params.lowBias) * static_cast<float>(params.max);
-  if (getBool(params.negativeChance)) {
-    raw *= -1;
+  return std::pow(getFloat(), lowBias);
+}
+
+int Random::getInt(const int min, const Settings::ValueSettings& preset)
+{
+  int res = getInt(min, preset.max, preset.lowBias);
+  if (getBool(preset.negativeChance)) {
+    res *= -1;
   }
-  return static_cast<int>(std::round(raw));
+  return res;
 }
