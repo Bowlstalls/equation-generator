@@ -21,6 +21,8 @@ namespace equation_generator {
     int getPower();
     int choose(const std::vector<int>& weights);
     NodeType getOperation();
+    template<typename T>
+    void shuffle(std::vector<T>& list);
 
   private:
     int getInt(Settings::ValueSettings params);

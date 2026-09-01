@@ -1,5 +1,6 @@
 ﻿#include "random.h"
 
+#include <algorithm>
 #include <stdexcept>
 
 using namespace equation_generator;
@@ -7,19 +8,19 @@ using namespace equation_generator;
 int Random::getInt(const int min, const int max)
 {
   std::uniform_int_distribution distribution(min, max);
-  return distribution(generator);
+  return distribution(engine);
 }
 
 float Random::getFloat()
 {
   std::uniform_real_distribution<float> distribution(0, 1);
-  return distribution(generator);
+  return distribution(engine);
 }
 
 bool Random::getBool(const float probability)
 {
   std::bernoulli_distribution distribution(probability);
-  return distribution(generator);
+  return distribution(engine);
 }
 
 int Random::getValue()
