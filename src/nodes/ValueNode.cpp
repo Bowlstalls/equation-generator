@@ -45,6 +45,37 @@ ValueNode ValueNode::operator*(const ValueNode& other) const
   return ValueNode(name, value * other.value, power + other.power);
 }
 
+void ValueNode::operator+=(const ValueNode& other)
+{
+  if (power != other.power) {
+    throw std::invalid_argument("Cannot add values with different power");
+  }
+  if (name != other.name) {
+    throw std::invalid_argument("Cannot add two different variables");
+  }
+  value += other.value;
+}
+
+void ValueNode::operator-=(const ValueNode& other)
+{
+  if (power != other.power) {
+    throw std::invalid_argument("Cannot add values with different power");
+  }
+  if (name != other.name) {
+    throw std::invalid_argument("Cannot add two different variables");
+  }
+  value -= other.value;
+}
+
+void ValueNode::operator*=(const ValueNode& other)
+{
+  if (name != other.name) {
+    throw std::invalid_argument("Cannot add two different variables");
+  }
+  value *= other.value;
+  power += other.power;
+}
+
 ValueNode ValueNode::operator-() const
 {
   return ValueNode(name, -value, power);

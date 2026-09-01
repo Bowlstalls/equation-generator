@@ -11,11 +11,14 @@ namespace equation_generator {
     std::string name;
 
     explicit ValueNode(int value);
-    explicit ValueNode(std::string name, int value = 1, int power = 1);
+    explicit ValueNode(std::string name, int value = 1, int power = 0);
 
     ValueNode operator+(const ValueNode& other) const;
     ValueNode operator-(const ValueNode& other) const;
     ValueNode operator*(const ValueNode& other) const;
+    void operator+=(const ValueNode& other);
+    void operator-=(const ValueNode& other);
+    void operator*=(const ValueNode& other);
     ValueNode operator-() const;
 
     [[nodiscard]] std::string toString() const override;
