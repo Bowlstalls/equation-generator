@@ -5,6 +5,7 @@
 #include "random.h"
 #include "settings.h"
 #include "operators/NodeGenerator.h"
+#include "operators/NodeOptimizer.h"
 
 namespace equation_generator {
   class Generator {
@@ -12,6 +13,7 @@ namespace equation_generator {
     Settings settings;
     Random random;
     NodeGenerator nodeGenerator;
+    NodeOptimizer nodeOptimizer;
 
     explicit Generator(const Settings& settings);
 

@@ -9,7 +9,8 @@ using namespace equation_generator;
 Generator::Generator(const Settings& settings):
 settings(settings),
 random(Random(std::random_device{}(), settings)),
-nodeGenerator(NodeGenerator(*this))
+nodeGenerator(NodeGenerator(*this)),
+nodeOptimizer(NodeOptimizer(*this))
 {}
 
 static std::vector<int> getCoefficients(const std::vector<int>& roots)
