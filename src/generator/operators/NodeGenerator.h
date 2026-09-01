@@ -26,6 +26,12 @@ namespace equation_generator {
     [[nodiscard]] std::unique_ptr<Node> generateValueNode(int) const;
     [[nodiscard]] std::unique_ptr<Node> generateAddNode(int targetScore) const;
     [[nodiscard]] std::unique_ptr<Node> generateMultNode(int targetScore) const;
+
+    inline static const std::map<NodeType, std::unique_ptr<Node>(NodeGenerator::*)(int) const> typeMap = {
+      {NodeType::ValueNode, &NodeGenerator::generateValueNode},
+      {NodeType::AddNode, &NodeGenerator::generateAddNode},
+      {NodeType::MultNode, &NodeGenerator::generateMultNode}
+    };
   };
 }
 

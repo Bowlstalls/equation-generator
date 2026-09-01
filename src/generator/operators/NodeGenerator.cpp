@@ -1,4 +1,4 @@
-﻿#include "../NodeGenerator.h"
+﻿#include "NodeGenerator.h"
 
 #include <iostream>
 #include <map>
@@ -23,11 +23,6 @@ std::unique_ptr<Node> NodeGenerator::generate(const NodeType& type, const int ta
   if (targetScore <= 0) {
     return generateValueNode(0);
   }
-  const std::map<NodeType, std::unique_ptr<Node>(NodeGenerator::*)(int) const> typeMap = {
-    {NodeType::ValueNode, &NodeGenerator::generateValueNode},
-    {NodeType::AddNode, &NodeGenerator::generateAddNode},
-    {NodeType::MultNode, &NodeGenerator::generateMultNode}
-  };
   return (this->*typeMap.at(type))(targetScore);
 }
 
