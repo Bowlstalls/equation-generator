@@ -16,7 +16,7 @@ namespace equation_generator {
     ValueSettings powers;
     std::map<NodeType, int> typeWeights = {
       {NodeType::AddNode, 2},
-      {NodeType::MultNode, 2}
+      {NodeType::MultNode, 1}
     };
   };
 }
