@@ -87,7 +87,9 @@ std::string ValueNode::toString() const
     return std::to_string(value);
   }
   std::string res;
-  if (value != 1) {
+  if (value == -1) {
+    res += '-';
+  } else if (value != 1) {
     res += std::to_string(value);
   }
   res += name;
