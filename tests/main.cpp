@@ -2,6 +2,7 @@
 
 #include "../src/generator/Generator.h"
 #include "../src/generator/settings.h"
+#include "../src/generator/operators/NodeFlattener.h"
 using namespace equation_generator;
 
 int main()
@@ -14,8 +15,9 @@ int main()
   };
   const Generator generator(settings);
   auto expr = generator.nodeGenerator.generateOperation(5);
-  auto res = generator.nodeOptimizer.optimize(expr->clone());
+  auto optimized = generator.nodeOptimizer.optimize(expr->clone());
+  auto flattened = NodeFlattener::flatten(optimized->clone());
   std::cout << expr->toString() << '\n';
-  std::cout << res->toString();
-
+  std::cout << optimized->toString() << '\n';
+  std::cout << flattened->toString() << '\n';
 };
