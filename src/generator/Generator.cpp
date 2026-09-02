@@ -1,10 +1,13 @@
 ﻿#include "Generator.h"
 
+#include <iostream>
+
 #include "../Equation.h"
 #include "../nodes/Node.h"
 #include "../nodes/ValueNode.h"
 #include "../nodes/operations/AddNode.h"
 #include "operators/NodeFlattener.h"
+#include "operators/NodeNegator.h"
 
 using namespace equation_generator;
 
@@ -15,28 +18,18 @@ nodeGenerator(NodeGenerator(*this)),
 nodeOptimizer(NodeOptimizer(*this))
 {}
 
-static std::unique_ptr<Node> negateFlat(std::unique_ptr<Node> node)
-{
-  if (node->type == NodeType::ValueNode) {
-    const auto& value = static_cast<ValueNode&>(*node);
-    return std::make_unique<ValueNode>(-value);
-  }
-  for (auto& addNode = static_cast<AddNode&>(*node); auto& item : addNode.list) {
-    const auto& value = static_cast<ValueNode&>(*item);
-    item = std::make_unique<ValueNode>(-value);
-  }
-  return node;
-}
-
 Equation Generator::generate(const int degree, const int targetScore)
 {
   Equation res = getRootEquation(degree);
   std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation(targetScore));
   auto total = std::make_unique<AddNode>();
   total->list.push_back(std::move(res.lhs));
-  total->list.push_back(std::move(posTerm->clone()));
-  total->list.push_back(negateFlat(std::move(posTerm)));
+  if (posTerm) {
+    total->list.push_back(std::move(posTerm->clone()));
+    total->list.push_back(NodeNegator::negate(NodeFlattener::flatten(std::move(posTerm))));
+  }
 
+  std::cout << total->toString() << '\n';
   res.lhs = nodeOptimizer.optimize(std::move(total));
   spill(res);
   return res;
@@ -107,5 +100,5 @@ void Generator::spill(Equation& equation)
     equation.rhs = std::move(rhsList[0]);
     return;
   }
-  equation.rhs = std::make_unique<AddNode>(std::move(rhsList));
+  equation.rhs = NodeNegator::negate(std::make_unique<AddNode>(std::move(rhsList)));
 }
