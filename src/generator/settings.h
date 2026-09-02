@@ -11,6 +11,7 @@ namespace equation_generator {
     };
 
     std::string variableName = "x";
+    float rightSideChance = 0.2;
     ValueSettings values;
     ValueSettings roots;
     ValueSettings powers;
