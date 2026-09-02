@@ -11,11 +11,9 @@ add_library(equation_generator STATIC
         src/nodes/ValueNode.cpp
         src/nodes/operations/AddNode.cpp
         src/nodes/operations/MultNode.cpp
-        src/Equation.cpp
         src/Equation.h
         src/generator/Generator.cpp
         src/generator/Generator.h
-        src/Equation.cpp
         src/nodes/operations/OperationNode.cpp
         src/nodes/operations/OperationNode.h
         src/generator/operators/NodeGenerator.cpp
@@ -28,6 +26,8 @@ add_library(equation_generator STATIC
         src/generator/operators/NodeOptimizer.h
         src/generator/operators/NodeFlattener.cpp
         src/generator/operators/NodeFlattener.h
+        src/generator/operators/NodeNegator.cpp
+        src/generator/operators/NodeNegator.h
 )
 
 add_subdirectory(tests)
