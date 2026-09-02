@@ -26,6 +26,8 @@ add_library(equation_generator STATIC
         src/generator/random.cpp
         src/generator/operators/NodeOptimizer.cpp
         src/generator/operators/NodeOptimizer.h
+        src/generator/operators/NodeFlattener.cpp
+        src/generator/operators/NodeFlattener.h
 )
 
 add_subdirectory(tests)
