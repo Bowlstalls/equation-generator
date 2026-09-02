@@ -8,10 +8,15 @@ int main()
 {
   const Settings settings {
     .variableName = "x",
-    .values = Settings::ValueSettings{.max = 40, .lowBias = 2, .negativeChance = 0.3},
+    .values = Settings::ValueSettings{.max = 2, .lowBias = 2, .negativeChance = 0.3},
     .roots = Settings::ValueSettings{.max = 5, .lowBias = 2, .negativeChance = 0.3},
     .powers = Settings::ValueSettings{.max = 2, .lowBias = 1, .negativeChance = 0}
   };
   Generator generator(settings);
-  Equation expr = generator.generate(2, 5);
+  Equation res = generator.generate(2, 5);
+  std::cout << res.toString() << '\n';
+  std::cout << "roots: ";
+  for (auto i : res.roots) {
+    std::cout << i << ' ';
+  }
 };
