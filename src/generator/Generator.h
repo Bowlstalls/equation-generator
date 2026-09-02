@@ -1,9 +1,10 @@
 ﻿#ifndef EQUATION_GENERATOR_GENERATOR_H
 #define EQUATION_GENERATOR_GENERATOR_H
 
-#include "Expression.h"
+#include "../Equation.h"
 #include "random.h"
 #include "settings.h"
+#include "../nodes/operations/AddNode.h"
 #include "operators/NodeGenerator.h"
 #include "operators/NodeOptimizer.h"
 
@@ -17,7 +18,11 @@ namespace equation_generator {
 
     explicit Generator(const Settings& settings);
 
-    Expression generate(int targetScore);
+    Equation generate(int degree, int targetScore);
+
+  private:
+    Equation getRootEquation(int degree);
+    void spill(Equation& equation);
   };
 }
 

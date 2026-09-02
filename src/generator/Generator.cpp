@@ -1,8 +1,10 @@
 ﻿#include "Generator.h"
 
-#include "Expression.h"
+#include "../Equation.h"
+#include "../nodes/Node.h"
 #include "../nodes/ValueNode.h"
 #include "../nodes/operations/AddNode.h"
+#include "operators/NodeFlattener.h"
 
 using namespace equation_generator;
 
@@ -12,6 +14,33 @@ random(Random(std::random_device{}(), settings)),
 nodeGenerator(NodeGenerator(*this)),
 nodeOptimizer(NodeOptimizer(*this))
 {}
+
+static std::unique_ptr<Node> negateFlat(std::unique_ptr<Node> node)
+{
+  if (node->type == NodeType::ValueNode) {
+    const auto& value = static_cast<ValueNode&>(*node);
+    return std::make_unique<ValueNode>(-value);
+  }
+  for (auto& addNode = static_cast<AddNode&>(*node); auto& item : addNode.list) {
+    const auto& value = static_cast<ValueNode&>(*item);
+    item = std::make_unique<ValueNode>(-value);
+  }
+  return node;
+}
+
+Equation Generator::generate(const int degree, const int targetScore)
+{
+  Equation res = getRootEquation(degree);
+  std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation(targetScore));
+  auto total = std::make_unique<AddNode>();
+  total->list.push_back(std::move(res.lhs));
+  total->list.push_back(std::move(posTerm->clone()));
+  total->list.push_back(negateFlat(std::move(posTerm)));
+
+  res.lhs = nodeOptimizer.optimize(std::move(total));
+  spill(res);
+  return res;
+}
 
 static std::vector<int> getCoefficients(const std::vector<int>& roots)
 {
@@ -25,25 +54,58 @@ static std::vector<int> getCoefficients(const std::vector<int>& roots)
   return out;
 }
 
-static AddNode getRootPolynomial(const std::vector<int>& roots, const std::string& name = "x")
+static std::unique_ptr<Node> getRootPolynomial(const std::vector<int>& roots, std::string variableName)
 {
-  AddNode res;
-  auto& list = res.list;
+  std::vector<std::unique_ptr<Node>> list;
   const size_t len = roots.size();
   const auto coefficients = getCoefficients(roots);
   auto sign = -1;
   auto power = len - 1;
 
-  list.push_back(std::make_unique<ValueNode>(name, 1, len));
+  list.push_back(std::make_unique<ValueNode>(variableName, 1, len));
   for (auto i = 0; i < len; ++i) {
-    list.push_back(std::make_unique<ValueNode>(name, coefficients[i] * sign, power));
+    list.push_back(std::make_unique<ValueNode>(variableName, coefficients[i] * sign, power));
     power--;
     sign *= -1;
   }
-  return res;
+  return std::make_unique<AddNode>(std::move(list));
 }
 
-Expression Generator::generate(int targetScore)
-{
+Equation Generator::getRootEquation(const int degree) {
+  std::vector<int> roots;
+  for (auto i = 0; i < degree; ++i) {
+    roots.push_back(random.getRoot());
+  }
+  return Equation {
+    .roots = std::move(roots),
+    .lhs = getRootPolynomial(roots, settings.variableName)
+  };
+}
 
+void Generator::spill(Equation& equation)
+{
+  auto* lhs = dynamic_cast<AddNode*>(&*equation.lhs);
+  if (!lhs) {
+    return;
+  }
+  std::vector<std::unique_ptr<Node>> lhsList;
+  std::vector<std::unique_ptr<Node>> rhsList;
+
+  for (auto& item : lhs->list) {
+    if (random.getBool(settings.rightSideChance)) {
+      rhsList.push_back(std::move(item));
+    } else {
+      lhsList.push_back(std::move(item));
+    }
+  }
+  lhs->list = std::move(lhsList);
+  if (rhsList.size() == 0) {
+    equation.rhs = std::make_unique<ValueNode>(0);
+    return;
+  }
+  if (rhsList.size() == 1) {
+    equation.rhs = std::move(rhsList[0]);
+    return;
+  }
+  equation.rhs = std::make_unique<AddNode>(std::move(rhsList));
 }
