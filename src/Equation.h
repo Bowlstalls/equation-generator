@@ -10,7 +10,9 @@ namespace equation_generator {
     std::unique_ptr<Node> lhs;
     std::unique_ptr<Node> rhs;
 
-    [[nodiscard]] std::string toString() const;
+    [[nodiscard]] std::string toString() const {
+      return lhs->toString() + " = " + rhs->toString();
+    }
   };
 }
 
