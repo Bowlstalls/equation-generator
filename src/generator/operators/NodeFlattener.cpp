@@ -27,9 +27,19 @@ namespace equation_generator {
 
   std::unique_ptr<Node> NodeFlattener::flattenAddNode(std::unique_ptr<Node> node)
   {
-    for (auto& addNode = static_cast<AddNode&>(*node); auto& item : addNode.list) {
+    auto& addNode = static_cast<AddNode&>(*node);
+    std::vector<std::unique_ptr<Node>> newList;
+    for (auto& item : addNode.list) {
       item = flatten(std::move(item));
+      if (item->type != NodeType::AddNode) {
+        newList.push_back(std::move(item));
+        continue;
+      }
+      for (auto& addItem = static_cast<AddNode&>(*item); auto& subitem : addItem.list) {
+        newList.push_back(std::move(subitem));
+      }
     }
+    addNode.list = std::move(newList);
     return node;
   }
 
@@ -60,9 +70,19 @@ namespace equation_generator {
 
   std::unique_ptr<Node> multiplyAddNode(std::unique_ptr<Node> node, std::unique_ptr<Node> other)
   {
-    for (auto& addNode = static_cast<AddNode&>(*node); auto& item : addNode.list) {
+    auto& addNode = static_cast<AddNode&>(*node);
+    std::vector<std::unique_ptr<Node>> newList;
+    for (auto& item : addNode.list) {
       item = std::move(item) * other->clone();
+      if (item->type != NodeType::AddNode) {
+        newList.push_back(std::move(item));
+        continue;
+      }
+      for (auto& addItem = static_cast<AddNode&>(*item); auto& subitem : addItem.list) {
+        newList.push_back(std::move(subitem));
+      }
     }
+    addNode.list = std::move(newList);
     return node;
   }
 }
