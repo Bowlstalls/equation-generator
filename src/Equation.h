@@ -9,6 +9,7 @@ namespace equation_generator {
     std::vector<int> roots;
     std::unique_ptr<Node> lhs;
     std::unique_ptr<Node> rhs;
+    float score;
 
     [[nodiscard]] std::string toString() const {
       return lhs->toString() + " = " + rhs->toString();

@@ -4,6 +4,7 @@
 #include "../nodes/Node.h"
 #include "../nodes/ValueNode.h"
 #include "../nodes/operations/AddNode.h"
+#include "inspectors/EquationScorer.h"
 #include "operators/NodeFlattener.h"
 
 using namespace equation_generator;
@@ -30,6 +31,7 @@ Equation Generator::generate()
   }
 
   res.lhs = nodeOptimizer.optimize(std::move(total));
+  res.score = EquationScorer::score(res);
   spill(res);
   return res;
 }
