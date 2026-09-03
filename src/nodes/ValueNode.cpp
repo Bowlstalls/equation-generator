@@ -81,6 +81,11 @@ ValueNode ValueNode::operator-() const
   return ValueNode(name, -value, power);
 }
 
+void ValueNode::negate()
+{
+  value = -value;
+}
+
 std::string ValueNode::toString() const
 {
   if (!power) {

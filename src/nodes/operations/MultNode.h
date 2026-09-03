@@ -16,6 +16,7 @@ namespace equation_generator {
 
     MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs);
 
+    void negate() override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::unique_ptr<Node> clone() const override;
   };

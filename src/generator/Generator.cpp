@@ -7,7 +7,6 @@
 #include "../nodes/ValueNode.h"
 #include "../nodes/operations/AddNode.h"
 #include "operators/NodeFlattener.h"
-#include "operators/NodeNegator.h"
 
 using namespace equation_generator;
 
@@ -26,7 +25,9 @@ Equation Generator::generate(const int degree, const int targetScore)
   total->list.push_back(std::move(res.lhs));
   if (posTerm) {
     total->list.push_back(std::move(posTerm->clone()));
-    total->list.push_back(NodeNegator::negate(NodeFlattener::flatten(std::move(posTerm))));
+    std::unique_ptr<Node> negTerm = NodeFlattener::flatten(std::move(posTerm));
+    negTerm->negate();
+    total->list.push_back(std::move(negTerm));
   }
 
   std::cout << total->toString() << '\n';
@@ -100,5 +101,5 @@ void Generator::spill(Equation& equation)
     equation.rhs = std::move(rhsList[0]);
     return;
   }
-  equation.rhs = NodeNegator::negate(std::make_unique<AddNode>(std::move(rhsList)));
+  equation.rhs = std::make_unique<AddNode>(std::move(rhsList));
 }

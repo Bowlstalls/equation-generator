@@ -26,6 +26,14 @@ static std::string getNext(const Node& node)
   return res;
 }
 
+void MultNode::negate()
+{
+  if (list.empty()) {
+    return;
+  }
+  list[0]->negate();
+}
+
 std::string MultNode::toString() const
 {
   auto iterator = list.begin();

@@ -21,6 +21,7 @@ namespace equation_generator {
     void operator*=(const ValueNode& other);
     ValueNode operator-() const;
 
+    void negate() override;
     [[nodiscard]] std::string toString() const override;
     [[nodiscard]] std::unique_ptr<Node> clone() const override;
   };

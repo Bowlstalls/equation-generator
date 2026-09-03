@@ -12,6 +12,7 @@ namespace equation_generator {
     explicit Node(const NodeType type): type(type) {}
     virtual ~Node() = default;
 
+    virtual void negate() = 0;
     [[nodiscard]] virtual std::string toString() const = 0;
     [[nodiscard]] virtual std::unique_ptr<Node> clone() const = 0;
   };

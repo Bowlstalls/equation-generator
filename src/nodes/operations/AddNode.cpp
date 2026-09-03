@@ -16,6 +16,13 @@ AddNode::AddNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): Operatio
   list.push_back(std::move(rhs));
 }
 
+void AddNode::negate()
+{
+  for (const auto& node : list) {
+    node->negate();
+  }
+}
+
 std::string AddNode::toString() const
 {
   auto iterator = list.begin();
