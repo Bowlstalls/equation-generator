@@ -7,7 +7,10 @@ using namespace equation_generator;
 int main()
 {
   const Settings settings {
+    .seed = std::random_device{}(),
     .variableName = "x",
+    .degree = 2,
+    .targetScore = 5,
     .values = Settings::ValueSettings{.max = 2, .lowBias = 2, .negativeChance = 0.3},
     .roots = Settings::ValueSettings{.max = 5, .lowBias = 2, .negativeChance = 0.3},
     .powers = Settings::ValueSettings{.max = 2, .lowBias = 1, .negativeChance = 0}
@@ -18,5 +21,6 @@ int main()
   std::cout << "roots: ";
   for (auto i : res.roots) {
     std::cout << i << ' ';
+  const Equation res = generator.generate();
   }
 };

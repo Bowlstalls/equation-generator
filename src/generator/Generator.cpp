@@ -12,15 +12,16 @@ using namespace equation_generator;
 
 Generator::Generator(const Settings& settings):
 settings(settings),
-random(Random(std::random_device{}(), settings)),
+random(Random( settings)),
 nodeGenerator(NodeGenerator(*this)),
 nodeOptimizer(NodeOptimizer(*this))
 {}
 
-Equation Generator::generate(const int degree, const int targetScore)
+Equation Generator::generate()
 {
-  Equation res = getRootEquation(degree);
-  std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation(targetScore));
+  Equation res = getRootEquation(settings.degree);
+  std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation(settings.targetScore));
+
   auto total = std::make_unique<AddNode>();
   total->list.push_back(std::move(res.lhs));
   if (posTerm) {

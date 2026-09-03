@@ -18,7 +18,7 @@ namespace equation_generator {
 
     explicit Generator(const Settings& settings);
 
-    Equation generate(int degree, int targetScore);
+    Equation generate();
 
   private:
     Equation getRootEquation(int degree);

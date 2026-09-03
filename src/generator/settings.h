@@ -10,11 +10,17 @@ namespace equation_generator {
       float negativeChance;
     };
 
+    const unsigned seed;
     std::string variableName = "x";
+
+    int degree;
+    int targetScore;
+
     float rightSideChance = 0.2;
     ValueSettings values;
     ValueSettings roots;
     ValueSettings powers;
+
     std::map<NodeType, int> typeWeights = {
       {NodeType::AddNode, 2},
       {NodeType::MultNode, 1}

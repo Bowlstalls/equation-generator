@@ -11,8 +11,9 @@ namespace equation_generator {
   public:
     std::mt19937 engine;
     Settings settings;
+    const unsigned seed;
 
-    Random(const unsigned seed, const Settings& settings): engine{seed}, settings{settings} {}
+    Random(const Settings& settings): engine(settings.seed), settings(settings), seed(settings.seed) {}
 
     int getInt(int min, int max);
     float getFloat();
