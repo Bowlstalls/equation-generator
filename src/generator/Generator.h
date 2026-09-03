@@ -4,7 +4,6 @@
 #include "../Equation.h"
 #include "random.h"
 #include "settings.h"
-#include "../nodes/operations/AddNode.h"
 #include "operators/NodeGenerator.h"
 #include "operators/NodeOptimizer.h"
 

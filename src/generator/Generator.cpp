@@ -1,7 +1,5 @@
 ﻿#include "Generator.h"
 
-#include <iostream>
-
 #include "../Equation.h"
 #include "../nodes/Node.h"
 #include "../nodes/ValueNode.h"
@@ -31,7 +29,6 @@ Equation Generator::generate()
     total->list.push_back(std::move(negTerm));
   }
 
-  std::cout << total->toString() << '\n';
   res.lhs = nodeOptimizer.optimize(std::move(total));
   spill(res);
   return res;
@@ -72,7 +69,7 @@ Equation Generator::getRootEquation(const int degree) {
     roots.push_back(random.getRoot());
   }
   return Equation {
-    .roots = std::move(roots),
+    .roots = roots,
     .lhs = getRootPolynomial(roots, settings.variableName)
   };
 }
@@ -88,6 +85,7 @@ void Generator::spill(Equation& equation)
 
   for (auto& item : lhs->list) {
     if (random.getBool(settings.rightSideChance)) {
+      item->negate();
       rhsList.push_back(std::move(item));
     } else {
       lhsList.push_back(std::move(item));
