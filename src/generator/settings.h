@@ -9,29 +9,28 @@ namespace equation_generator {
       float lowBias;
       float negativeChance;
     };
-    float base;
-    Item values;
-    Item roots;
-    Item powers;
+    float base = 1;
+    Item value = Item{.max = 20, .lowBias = 2, .negativeChance = 0.3};
+    Item roots = Item{.max = 10, .lowBias = 1, .negativeChance = 0.3};
+    Item powers = Item{.max = 2, .lowBias = 1, .negativeChance = 0};
   };
   struct StructureSettings {
-    int maxDepth;
-    int maxWidth;
-    int degree;
-    float valueChance;
+    int maxDepth = 3;
+    int maxWidth = 4;
+    float valueChance = 0.3;
     float rightSideChance = 0.2;
     std::map<NodeType, int> operationWeights = {
       {NodeType::AddNode, 2},
       {NodeType::MultNode, 1}
     };
   };
-
   struct Settings {
-    const unsigned seed;
+    const unsigned seed = std::random_device{}();
     std::string variableName = "x";
+    int degree = 2;
 
-    ValueSettings valueSettings;
-    StructureSettings structureSettings;
+    ValueSettings valueSettings = ValueSettings{};
+    StructureSettings structureSettings = StructureSettings{};
   };
 }
 
