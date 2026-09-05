@@ -6,9 +6,9 @@
 
 using namespace equation_generator;
 
-ValueNode::ValueNode(const int value): Node(NodeType::ValueNode), value(value) {}
+ValueNode::ValueNode(const float value): Node(NodeType::ValueNode), value(value) {}
 
-ValueNode::ValueNode(std::string name, const int value, const int power):
+ValueNode::ValueNode(std::string name, const float value, const int power):
 Node(NodeType::ValueNode),
 value(value),
 power(power),

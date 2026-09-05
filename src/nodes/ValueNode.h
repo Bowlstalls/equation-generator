@@ -6,12 +6,12 @@
 namespace equation_generator {
   class ValueNode final : public Node {
   public:
-    int value;
+    float value;
     int power = 0;
     std::string name;
 
-    explicit ValueNode(int value);
-    explicit ValueNode(std::string name, int value = 1, int power = 0);
+    explicit ValueNode(float value);
+    explicit ValueNode(std::string name, float value = 1, int power = 0);
 
     ValueNode operator+(const ValueNode& other) const;
     ValueNode operator-(const ValueNode& other) const;
