@@ -33,31 +33,20 @@ std::unique_ptr<Node> NodeOptimizer::optimizeAddNode(std::unique_ptr<Node> node)
   std::vector<std::unique_ptr<Node>> newList;
   std::map<float, ValueNode> values;
 
-  auto insertNode = [&](std::unique_ptr<Node> item) {
-    if (item->type != NodeType::ValueNode) {
-      newList.push_back(std::move(item));
-      return;
-    }
-    if (auto& valueNode = static_cast<ValueNode&>(*item); !values.contains(valueNode.power)) {
-      values.emplace(valueNode.power, valueNode);
-    } else {
-      values.at(valueNode.power) += valueNode;
-    }
-  };
-
   for (auto& item : multNode.list) {
     auto optimized = optimize(std::move(item));
     if (!optimized) {
       continue;
     }
-    if (optimized->type == NodeType::AddNode) {
-      auto& otherAddNode = static_cast<AddNode&>(*optimized);
-      for (auto& otherItem : otherAddNode.list) {
-        insertNode(std::move(otherItem));
-      }
+    if (optimized->type != NodeType::ValueNode) {
+      newList.push_back(std::move(optimized));
       continue;
     }
-    insertNode(std::move(optimized));
+    if (auto& valueNode = static_cast<ValueNode&>(*optimized); !values.contains(valueNode.power)) {
+      values.emplace(valueNode.power, valueNode);
+    } else {
+      values.at(valueNode.power) += valueNode;
+    }
   }
   for (auto [_, valueNode] : values) {
     if (valueNode.value != 0) {
@@ -82,28 +71,17 @@ std::unique_ptr<Node> NodeOptimizer::optimizeMultNode(std::unique_ptr<Node> node
   std::vector<std::unique_ptr<Node>> newList;
   auto value = ValueNode(settings.variableName, 1, 0);
 
-  auto insertNode = [&](std::unique_ptr<Node> item) {
-    if (item->type != NodeType::ValueNode) {
-      newList.push_back(std::move(item));
-      return;
-    }
-    const auto& valueNode = static_cast<ValueNode&>(*item);
-    value *= valueNode;
-  };
-
   for (auto& item : multNode.list) {
     auto optimized = optimize(std::move(item));
     if (!optimized) {
       return nullptr;
     }
-    if (optimized->type == NodeType::MultNode) {
-      auto& otherMultNode = static_cast<MultNode&>(*optimized);
-      for (auto& otherItem : otherMultNode.list) {
-        insertNode(std::move(otherItem));
-      }
+    if (optimized->type != NodeType::ValueNode) {
+      newList.push_back(std::move(optimized));
       continue;
     }
-    insertNode(std::move(optimized));
+    const auto& valueNode = static_cast<ValueNode&>(*optimized);
+    value *= valueNode;
   }
   if (value.value == 0) {
     return nullptr;
