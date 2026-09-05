@@ -5,15 +5,17 @@
 #include "../ValueNode.h"
 using namespace equation_generator;
 
-AddNode::AddNode(std::vector<std::unique_ptr<Node>>&& list):
-OperationNode(NodeType::AddNode, 1),
-list(std::move(list))
-{}
+AddNode::AddNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(NodeType::AddNode, 1)
+{
+  for (auto& item : list) {
+    listInsert<AddNode>(NodeType::AddNode, this->list, std::move(item));
+  }
+}
 
 AddNode::AddNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::AddNode, 1)
 {
-  list.push_back(std::move(lhs));
-  list.push_back(std::move(rhs));
+  listInsert<AddNode>(NodeType::AddNode, this->list, std::move(lhs));
+  listInsert<AddNode>(NodeType::AddNode, this->list, std::move(rhs));
 }
 
 void AddNode::negate()

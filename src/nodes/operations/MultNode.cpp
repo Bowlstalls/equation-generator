@@ -5,15 +5,17 @@
 #include "AddNode.h"
 using namespace equation_generator;
 
-MultNode::MultNode(std::vector<std::unique_ptr<Node>>&& list):
-OperationNode(NodeType::MultNode, 2),
-list(std::move(list))
-{}
+MultNode::MultNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(NodeType::MultNode, 2)
+{
+  for (auto& item : list) {
+    listInsert<MultNode>(NodeType::MultNode, this->list, std::move(item));
+  }
+}
 
 MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::MultNode, 2)
 {
-  list.push_back(std::move(lhs));
-  list.push_back(std::move(rhs));
+  listInsert<MultNode>(NodeType::MultNode, this->list, std::move(lhs));
+  listInsert<MultNode>(NodeType::MultNode, this->list, std::move(rhs));
 }
 
 static std::string getNext(const Node& node)

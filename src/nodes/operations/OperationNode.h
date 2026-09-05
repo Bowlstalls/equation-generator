@@ -10,6 +10,29 @@ namespace equation_generator {
     int priority;
 
     explicit OperationNode(const NodeType type, const int priority): Node(type), priority(priority) {}
+
+  protected:
+    template<typename T>
+    static void listInsert(const NodeType type, std::vector<std::unique_ptr<Node>>& list, std::unique_ptr<Node> item)
+    {
+      if (item->type != type) {
+        list.push_back(std::move(item));
+      }
+      for (auto& castItem = static_cast<T&>(*item); auto& subitem : castItem.list) {
+        list.push_back(std::move(subitem));
+      }
+    };
+    template<typename T>
+    static void listInsertDynamic(std::vector<std::unique_ptr<Node>>& list, std::unique_ptr<Node> item)
+    {
+      auto* castItem = static_cast<T*>(*item);
+      if (!castItem) {
+        list.push_back(std::move(item));
+      }
+      for (auto& subitem : castItem->list) {
+        list.push_back(std::move(subitem));
+      }
+    };
   };
 }
 
