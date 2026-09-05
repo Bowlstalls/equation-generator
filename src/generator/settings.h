@@ -9,6 +9,7 @@ namespace equation_generator {
       float lowBias;
       float negativeChance;
     };
+    float base;
     Item values;
     Item roots;
     Item powers;
