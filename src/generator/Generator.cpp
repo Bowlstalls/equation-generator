@@ -86,7 +86,7 @@ void Generator::spill(Equation& equation)
   std::vector<std::unique_ptr<Node>> rhsList;
 
   for (auto& item : lhs->list) {
-    if (random.getBool(settings.rightSideChance)) {
+    if (random.getBool(settings.structureSettings.rightSideChance)) {
       item->negate();
       rhsList.push_back(std::move(item));
     } else {
