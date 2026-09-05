@@ -7,15 +7,20 @@ using namespace equation_generator;
 
 MultNode::MultNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(NodeType::MultNode, 2)
 {
-  for (auto& item : list) {
-    listInsert<MultNode>(NodeType::MultNode, this->list, std::move(item));
-  }
+  setList(std::move(list));
 }
 
 MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::MultNode, 2)
 {
   listInsert<MultNode>(NodeType::MultNode, this->list, std::move(lhs));
   listInsert<MultNode>(NodeType::MultNode, this->list, std::move(rhs));
+}
+
+void MultNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
+{
+  for (auto& item : newList) {
+    listInsert<MultNode>(NodeType::MultNode, list, std::move(item));
+  }
 }
 
 static std::string getNext(const Node& node)

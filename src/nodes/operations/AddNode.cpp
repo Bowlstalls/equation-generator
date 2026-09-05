@@ -7,15 +7,20 @@ using namespace equation_generator;
 
 AddNode::AddNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(NodeType::AddNode, 1)
 {
-  for (auto& item : list) {
-    listInsert<AddNode>(NodeType::AddNode, this->list, std::move(item));
-  }
+  setList(std::move(list));
 }
 
 AddNode::AddNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::AddNode, 1)
 {
   listInsert<AddNode>(NodeType::AddNode, this->list, std::move(lhs));
   listInsert<AddNode>(NodeType::AddNode, this->list, std::move(rhs));
+}
+
+void AddNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
+{
+  for (auto& item : newList) {
+    listInsert<AddNode>(NodeType::AddNode, list, std::move(item));
+  }
 }
 
 void AddNode::negate()

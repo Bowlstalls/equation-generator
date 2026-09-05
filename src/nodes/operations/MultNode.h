@@ -16,6 +16,7 @@ namespace equation_generator {
 
     MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs);
 
+    void setList(std::vector<std::unique_ptr<Node>>&& newList);
     void negate() override;
     void setBase(float base) override;
     [[nodiscard]] std::string toString() const override;
