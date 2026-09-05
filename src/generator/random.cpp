@@ -58,7 +58,7 @@ NodeType Random::getOperation()
 {
   std::vector<NodeType> keys;
   std::vector<int> values;
-  for (auto& [fst, snd] : typeWeights) {
+  for (const auto& [fst, snd] : settings.structureSettings.operationWeights) {
     keys.push_back(fst);
     values.push_back(snd);
   }

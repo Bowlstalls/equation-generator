@@ -10,14 +10,12 @@ namespace equation_generator {
   class Random {
   public:
     std::mt19937 engine;
-    const ValueSettings& settings;
-    const std::map<NodeType, int>& typeWeights;
+    const Settings& settings;
     const unsigned seed;
 
     explicit Random(const Settings& settings):
     engine(settings.seed),
-    settings(settings.valueSettings),
-    typeWeights(settings.structureSettings.typeWeights),
+    settings(settings),
     seed(settings.seed)
     {}
 
