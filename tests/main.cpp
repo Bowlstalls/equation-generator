@@ -10,11 +10,17 @@ int main()
   const Settings settings {
     .seed = std::random_device{}(),
     .variableName = "x",
-    .degree = 2,
-    .targetScore = 5,
-    .values = Settings::ValueSettings{.max = 2, .lowBias = 2, .negativeChance = 0.3},
-    .roots = Settings::ValueSettings{.max = 5, .lowBias = 1, .negativeChance = 0.3},
-    .powers = Settings::ValueSettings{.max = 2, .lowBias = 1, .negativeChance = 0}
+    .valueSettings = ValueSettings {
+      .values = ValueSettings::Item{.max = 20, .lowBias = 2, .negativeChance = 0.3},
+      .roots = ValueSettings::Item{.max = 5, .lowBias = 1, .negativeChance = 0.3},
+      .powers = ValueSettings::Item{.max = 2, .lowBias = 1, .negativeChance = 0}
+    },
+    .structureSettings = StructureSettings {
+      .maxDepth = 8,
+      .maxWidth = 10,
+      .degree = 2,
+      .valueChance = 0.3
+    }
   };
 
   Generator generator(settings);
