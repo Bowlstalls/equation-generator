@@ -17,6 +17,7 @@ namespace equation_generator {
     int maxDepth;
     int maxWidth;
     int degree;
+    float valueChance;
     float rightSideChance = 0.2;
     std::map<NodeType, int> operationWeights = {
       {NodeType::AddNode, 2},
