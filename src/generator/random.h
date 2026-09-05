@@ -10,10 +10,16 @@ namespace equation_generator {
   class Random {
   public:
     std::mt19937 engine;
-    Settings settings;
+    const ValueSettings& settings;
+    const std::map<NodeType, int>& typeWeights;
     const unsigned seed;
 
-    Random(const Settings& settings): engine(settings.seed), settings(settings), seed(settings.seed) {}
+    explicit Random(const Settings& settings):
+    engine(settings.seed),
+    settings(settings.valueSettings),
+    typeWeights(settings.structureSettings.typeWeights),
+    seed(settings.seed)
+    {}
 
     int getInt(int min, int max);
     float getFloat();
@@ -32,7 +38,7 @@ namespace equation_generator {
 
   private:
     int getInt(int min, int max, float lowBias);
-    int getInt(int min, const Settings::ValueSettings& preset);
+    int getInt(int min, const ValueSettings::Item& preset);
     float getFloat(float lowBias);
   };
 }

@@ -58,7 +58,7 @@ NodeType Random::getOperation()
 {
   std::vector<NodeType> keys;
   std::vector<int> values;
-  for (auto& [fst, snd] : settings.typeWeights) {
+  for (auto& [fst, snd] : typeWeights) {
     keys.push_back(fst);
     values.push_back(snd);
   }
@@ -75,7 +75,7 @@ float Random::getFloat(const float lowBias)
   return std::pow(getFloat(), lowBias);
 }
 
-int Random::getInt(const int min, const Settings::ValueSettings& preset)
+int Random::getInt(const int min, const ValueSettings::Item& preset)
 {
   int res = getInt(min, preset.max, preset.lowBias);
   if (getBool(preset.negativeChance)) {
