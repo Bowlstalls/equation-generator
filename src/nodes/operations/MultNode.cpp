@@ -34,6 +34,13 @@ void MultNode::negate()
   list[0]->negate();
 }
 
+void MultNode::setBase(const float base)
+{
+  for (const auto& item : list) {
+    item->setBase(base);
+  }
+}
+
 std::string MultNode::toString() const
 {
   auto iterator = list.begin();

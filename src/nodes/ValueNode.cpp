@@ -1,5 +1,6 @@
 ﻿#include "ValueNode.h"
 
+#include <cmath>
 #include <utility>
 #include "operations/AddNode.h"
 #include "operations/MultNode.h"
@@ -84,6 +85,11 @@ ValueNode ValueNode::operator-() const
 void ValueNode::negate()
 {
   value = -value;
+}
+
+void ValueNode::setBase(const float base)
+{
+  value = std::ceil(value) * base;
 }
 
 std::string ValueNode::toString() const

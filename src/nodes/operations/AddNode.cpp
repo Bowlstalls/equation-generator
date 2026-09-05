@@ -23,6 +23,13 @@ void AddNode::negate()
   }
 }
 
+void AddNode::setBase(const float base)
+{
+  for (const auto& item : list) {
+    item->setBase(base);
+  }
+}
+
 std::string AddNode::toString() const
 {
   auto iterator = list.begin();

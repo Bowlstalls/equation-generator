@@ -13,6 +13,7 @@ namespace equation_generator {
     virtual ~Node() = default;
 
     virtual void negate() = 0;
+    virtual void setBase(float base) = 0;
     [[nodiscard]] virtual std::string toString() const = 0;
     [[nodiscard]] virtual std::unique_ptr<Node> clone() const = 0;
   };
