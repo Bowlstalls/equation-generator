@@ -14,7 +14,6 @@ add_library(equation_generator STATIC
         src/Equation.h
         src/generator/Generator.cpp
         src/generator/Generator.h
-        src/nodes/operations/OperationNode.cpp
         src/nodes/operations/OperationNode.h
         src/generator/operators/NodeGenerator.cpp
         src/generator/operators/NodeGenerator.h
