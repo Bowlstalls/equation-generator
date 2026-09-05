@@ -10,7 +10,7 @@ namespace equation_generator {
       float negativeChance;
     };
     float base = 1;
-    Item value = Item{.max = 20, .lowBias = 2, .negativeChance = 0.3};
+    Item values = Item{.max = 20, .lowBias = 2, .negativeChance = 0.3};
     Item roots = Item{.max = 10, .lowBias = 1, .negativeChance = 0.3};
     Item powers = Item{.max = 2, .lowBias = 1, .negativeChance = 0};
   };

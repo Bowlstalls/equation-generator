@@ -19,7 +19,7 @@ nodeOptimizer(NodeOptimizer(*this))
 Equation Generator::generate()
 {
   Equation res = getRootEquation(settings.degree);
-  std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation(settings.targetScore));
+  std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation());
 
   auto total = std::make_unique<AddNode>();
   total->list.push_back(std::move(res.lhs));
