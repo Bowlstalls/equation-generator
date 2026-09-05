@@ -1,6 +1,5 @@
 ﻿#include "NodeGenerator.h"
 
-#include <iostream>
 #include <map>
 
 #include "../Generator.h"
@@ -13,46 +12,41 @@ using namespace equation_generator;
 NodeGenerator::NodeGenerator(Generator& generator): random(generator.random), settings(generator.settings) {}
 NodeGenerator::NodeGenerator(Random& random, const Settings& settings): random(random), settings(settings) {}
 
-std::unique_ptr<Node> NodeGenerator::generateOperation(const int targetScore) const
+std::unique_ptr<Node> NodeGenerator::generateOperation() const
 {
-  return generate(random.getOperation(), targetScore);
+  return generate(random.getOperation());
 }
 
-std::unique_ptr<Node> NodeGenerator::generate(const NodeType& type, const int targetScore) const
+std::unique_ptr<Node> NodeGenerator::generate(const NodeType& type, const int depth, const int width) const
 {
-  if (targetScore <= 0) {
-    return generateValueNode(0);
+  return (this->*typeMap.at(type))(depth, width);
+}
+
+std::unique_ptr<Node> NodeGenerator::generateValueNode(const int depth, const int width) const
+{
+  return std::make_unique<ValueNode>(settings.variableName, random.getValue(depth, width), random.getPower(depth));
+}
+
+std::unique_ptr<Node> NodeGenerator::generateAddNode(const int depth, int width) const
+{
+  if (width >= settings.structureSettings.maxWidth || random.getBool(settings.structureSettings.valueChance)) {
+    return generateValueNode(depth, width);
   }
-  return (this->*typeMap.at(type))(targetScore);
-}
-
-std::unique_ptr<Node> NodeGenerator::generateValueNode(int) const
-{
-  return std::make_unique<ValueNode>(settings.variableName, random.getValue(), random.getPower());
-}
-
-std::unique_ptr<Node> NodeGenerator::generateAddNode(const int targetScore) const
-{
-  float lhs = random.getFloat();
-  float rhs = random.getFloat();
-  const float sum = lhs + rhs;
-  lhs *= static_cast<float>(targetScore) / sum;
-  rhs *= static_cast<float>(targetScore) / sum;
+  ++width;
   return std::make_unique<AddNode>(
-    generateOperation(static_cast<int>(lhs)),
-    generateOperation(static_cast<int>(rhs))
+    generate(random.getOperation(), depth, width),
+    generate(random.getOperation(), depth, width)
     );
 }
 
-std::unique_ptr<Node> NodeGenerator::generateMultNode(const int targetScore) const
+std::unique_ptr<Node> NodeGenerator::generateMultNode(int depth, const int width) const
 {
-  float lhs = random.getFloat();
-  float rhs = random.getFloat();
-  const float product = lhs * rhs;
-  lhs *= std::sqrt(static_cast<float>(targetScore) / product);
-  rhs *= std::sqrt(static_cast<float>(targetScore) / product);
+  if (depth >= settings.structureSettings.maxWidth || random.getBool(settings.structureSettings.valueChance)) {
+    return generateValueNode(depth, width);
+  }
+  ++depth;
   return std::make_unique<MultNode>(
-      generateOperation(static_cast<int>(lhs)),
-      generateOperation(static_cast<int>(rhs))
+    generate(random.getOperation(), depth, width),
+    generate(random.getOperation(), depth, width)
     );
 }

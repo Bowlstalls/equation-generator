@@ -22,9 +22,9 @@ namespace equation_generator {
     int getInt(int min, int max);
     float getFloat();
     bool getBool(float probability);
-    int getValue();
+    int getValue(int depth, int width);
     int getRoot();
-    int getPower();
+    int getPower(int depth);
     int choose(const std::vector<int>& weights);
     NodeType getOperation();
 
