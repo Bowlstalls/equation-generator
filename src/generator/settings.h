@@ -3,28 +3,33 @@
 #include <map>
 
 namespace equation_generator {
-  struct Settings {
-    struct ValueSettings {
+  struct ValueSettings {
+    struct Item {
       int max;
       float lowBias;
       float negativeChance;
     };
-
-    const unsigned seed;
-    std::string variableName = "x";
-
+    Item values;
+    Item roots;
+    Item powers;
+  };
+  struct StructureSettings {
+    int maxDepth;
+    int maxWidth;
     int degree;
-    int targetScore;
-
     float rightSideChance = 0.2;
-    ValueSettings values;
-    ValueSettings roots;
-    ValueSettings powers;
-
     std::map<NodeType, int> typeWeights = {
       {NodeType::AddNode, 2},
       {NodeType::MultNode, 1}
     };
+  };
+
+  struct Settings {
+    const unsigned seed;
+    std::string variableName = "x";
+
+    ValueSettings valueSettings;
+    StructureSettings structureSettings;
   };
 }
 
