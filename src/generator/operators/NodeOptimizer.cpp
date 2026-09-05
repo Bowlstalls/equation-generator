@@ -31,7 +31,7 @@ std::unique_ptr<Node> NodeOptimizer::optimizeAddNode(std::unique_ptr<Node> node)
   const auto start = node->toString();
   auto& multNode = static_cast<MultNode&>(*node);
   std::vector<std::unique_ptr<Node>> newList;
-  std::map<int, ValueNode> values;
+  std::map<float, ValueNode> values;
 
   auto insertNode = [&](std::unique_ptr<Node> item) {
     if (item->type != NodeType::ValueNode) {

@@ -6,7 +6,7 @@
 
 namespace equation_generator {
   struct Equation {
-    std::vector<int> roots;
+    std::vector<float> roots;
     std::unique_ptr<Node> lhs;
     std::unique_ptr<Node> rhs;
     float score;

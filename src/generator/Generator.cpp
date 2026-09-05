@@ -36,9 +36,9 @@ Equation Generator::generate()
   return res;
 }
 
-static std::vector<int> getCoefficients(const std::vector<int>& roots)
+static std::vector<float> getCoefficients(const std::vector<float>& roots)
 {
-  std::vector<int> out(roots.size());
+  std::vector<float> out(roots.size());
   for (size_t i = 0; i < roots.size(); ++i) {
     for (size_t j = i; j > 0; --j) {
       out[j] += roots[i] * out[j - 1];
@@ -48,7 +48,7 @@ static std::vector<int> getCoefficients(const std::vector<int>& roots)
   return out;
 }
 
-static std::unique_ptr<Node> getRootPolynomial(const std::vector<int>& roots, std::string variableName)
+static std::unique_ptr<Node> getRootPolynomial(const std::vector<float>& roots, std::string variableName)
 {
   std::vector<std::unique_ptr<Node>> list;
   const size_t len = roots.size();
@@ -66,7 +66,7 @@ static std::unique_ptr<Node> getRootPolynomial(const std::vector<int>& roots, st
 }
 
 Equation Generator::getRootEquation(const int degree) {
-  std::vector<int> roots;
+  std::vector<float> roots;
   for (auto i = 0; i < degree; ++i) {
     roots.push_back(random.getRoot());
   }

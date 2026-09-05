@@ -23,27 +23,27 @@ bool Random::getBool(const float probability)
   return distribution(engine);
 }
 
-int Random::getValue(const int depth, const int width)
+float Random::getValue(const int depth, const int width)
 {
   const auto& [max, lowBias, negativeChance] = settings.valueSettings.values;
-  int res = getInt(1, max, lowBias);
-  res = std::round(std::pow(res, 1.0 / depth) / width);
+  float res = getInt(1, max, lowBias);
+  res = std::pow(res, 1.0 / depth) / width;
   if (getBool(negativeChance)) {
     res *= -1;
   }
   return res;
 }
 
-int Random::getRoot()
+float Random::getRoot()
 {
   return getInt(1, settings.valueSettings.roots);
 }
 
-int Random::getPower(const int depth)
+float Random::getPower(const int depth)
 {
   const auto& [max, lowBias, negativeChance] = settings.valueSettings.powers;
-  int res = getInt(1, max, lowBias);
-  res = std::round(static_cast<float>(res) / depth);
+  float res = getInt(1, max, lowBias);
+  res = std::round(res / depth);
   if (getBool(negativeChance)) {
     res *= -1;
   }

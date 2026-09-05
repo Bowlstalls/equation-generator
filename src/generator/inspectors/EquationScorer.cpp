@@ -21,7 +21,7 @@ namespace equation_generator {
   void EquationScorer::scoreValueNode(const Node& node, Data& data, const int depth)
   {
     const auto& valueNode = static_cast<const ValueNode&>(node);
-    data.coefficientSize.add(std::to_string(std::abs(valueNode.value)).length());
+    data.coefficientSize.add(std::to_string(std::abs(static_cast<int>(valueNode.value))).length());
     data.depth.add(depth);
   }
 

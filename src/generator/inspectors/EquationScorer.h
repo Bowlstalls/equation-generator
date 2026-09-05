@@ -17,18 +17,18 @@ namespace equation_generator {
 
     struct Data {
       struct avg {
-        int sum = 0;
+        float sum = 0;
         int count = 0;
         float weight;
 
-        void add(const int value)
+        void add(const float value)
         {
           sum += value;
           ++count;
         }
         float getValue() const
         {
-          return std::pow(static_cast<float>(sum) / count, weight);
+          return std::pow(sum / count, weight);
         }
       };
       avg depth{.weight = 2};
@@ -36,7 +36,7 @@ namespace equation_generator {
       avg coefficientSize{.weight = 0.5};
       avg rootSize{.weight = 0.5};
 
-      void setRoots(const std::vector<int>& roots)
+      void setRoots(const std::vector<float>& roots)
       {
         for (const auto& root : roots) {
           rootSize.add(std::to_string(std::abs(root)).length());
