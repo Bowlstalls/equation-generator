@@ -24,6 +24,7 @@ Equation Generator::generate()
   auto total = std::make_unique<AddNode>();
   total->list.push_back(std::move(res.lhs));
   if (posTerm) {
+    posTerm->setBase(settings.valueSettings.base);
     total->list.push_back(std::move(posTerm->clone()));
     std::unique_ptr<Node> negTerm = NodeFlattener::flatten(std::move(posTerm));
     negTerm->negate();
