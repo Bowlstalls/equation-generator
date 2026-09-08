@@ -1,4 +1,4 @@
-﻿#include "Generator.h"
+﻿#include "../../include/equation-generator/Generator.h"
 
 #include "../Equation.h"
 #include "../nodes/Node.h"

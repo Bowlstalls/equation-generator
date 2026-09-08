@@ -1,11 +1,11 @@
 ﻿#ifndef EQUATION_GENERATOR_GENERATOR_H
 #define EQUATION_GENERATOR_GENERATOR_H
 
-#include "../Equation.h"
-#include "random.h"
-#include "settings.h"
-#include "operators/NodeGenerator.h"
-#include "operators/NodeOptimizer.h"
+#include "../../src/Equation.h"
+#include "../../src/generator/random.h"
+#include "../../src/generator/settings.h"
+#include "../../src/generator/operators/NodeGenerator.h"
+#include "../../src/generator/operators/NodeOptimizer.h"
 
 namespace equation_generator {
   class Generator {

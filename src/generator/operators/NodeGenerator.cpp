@@ -2,7 +2,7 @@
 
 #include <map>
 
-#include "../Generator.h"
+#include "../../../include/equation-generator/Generator.h"
 #include "../../nodes/ValueNode.h"
 #include "../../nodes/operations/AddNode.h"
 #include "../../nodes/operations/MultNode.h"
