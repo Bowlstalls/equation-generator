@@ -2,7 +2,7 @@
 #define EQUATION_GENERATOR_EXPRESSION_H
 #include <vector>
 
-#include "nodes/Node.h"
+#include "../../src/nodes/Node.h"
 
 namespace equation_generator {
   struct Equation {

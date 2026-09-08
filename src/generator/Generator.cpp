@@ -1,6 +1,6 @@
 ﻿#include "../../include/equation-generator/Generator.h"
 
-#include "../Equation.h"
+#include "../../include/equation-generator/Equation.h"
 #include "../nodes/Node.h"
 #include "../nodes/ValueNode.h"
 #include "../nodes/operations/AddNode.h"

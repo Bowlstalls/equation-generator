@@ -2,7 +2,7 @@
 #define EQUATION_GENERATOR_EQUATIONVERIFIER_H
 #include <map>
 
-#include "../../src/Equation.h"
+#include "../../include/equation-generator/Equation.h"
 
 namespace equation_generator {
   class EquationVerifier {

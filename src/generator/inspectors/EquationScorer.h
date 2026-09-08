@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 
-#include "../../Equation.h"
+#include "../../../include/equation-generator/Equation.h"
 
 namespace equation_generator {
   class EquationScorer {

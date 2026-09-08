@@ -1,7 +1,7 @@
 ﻿#ifndef EQUATION_GENERATOR_GENERATOR_H
 #define EQUATION_GENERATOR_GENERATOR_H
 
-#include "../../src/Equation.h"
+#include "Equation.h"
 #include "../../src/generator/random.h"
 #include "../../src/generator/settings.h"
 #include "../../src/generator/operators/NodeGenerator.h"
