@@ -22,13 +22,13 @@ Equation Generator::generate()
   std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation());
 
   auto total = std::make_unique<AddNode>();
-  total->list.push_back(std::move(res.lhs));
+  total->addItem(std::move(res.lhs));
   if (posTerm) {
     posTerm->setBase(settings.valueSettings.base);
-    total->list.push_back(std::move(posTerm->clone()));
+    total->addItem(std::move(posTerm->clone()));
     std::unique_ptr<Node> negTerm = NodeFlattener::flatten(std::move(posTerm));
     negTerm->negate();
-    total->list.push_back(std::move(negTerm));
+    total->addItem(std::move(negTerm));
   }
 
   res.lhs = nodeOptimizer.optimize(std::move(total));
