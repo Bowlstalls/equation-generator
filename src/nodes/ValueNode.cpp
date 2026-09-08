@@ -1,6 +1,7 @@
 ﻿#include "ValueNode.h"
 
 #include <cmath>
+#include <sstream>
 #include <utility>
 #include "operations/AddNode.h"
 #include "operations/MultNode.h"
@@ -94,20 +95,21 @@ void ValueNode::setBase(const float base)
 
 std::string ValueNode::toString() const
 {
+  std::ostringstream res;
   if (!power) {
-    return std::to_string(value);
+    res << value;
+    return res.str();
   }
-  std::string res;
   if (value == -1) {
-    res += '-';
+    res << '-';
   } else if (value != 1) {
-    res += std::to_string(value);
+    res << value;
   }
-  res += name;
+  res << name;
   if (power != 1) {
-    res += '^' + std::to_string(power);
+    res << '^' << power;
   }
-  return res;
+  return res.str();
 }
 
 std::unique_ptr<Node> ValueNode::clone() const
