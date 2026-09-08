@@ -3,7 +3,7 @@
 
 #include "Equation.h"
 #include "../../src/generator/random.h"
-#include "../../src/generator/settings.h"
+#include "settings.h"
 #include "../../src/generator/operators/NodeGenerator.h"
 #include "../../src/generator/operators/NodeOptimizer.h"
 

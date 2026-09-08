@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 
 #include "../include/equation-generator/Generator.h"
-#include "../src/generator/settings.h"
+#include "../include/equation-generator/settings.h"
 #include "tools/EquationVerifier.h"
 using namespace equation_generator;
 

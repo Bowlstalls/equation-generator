@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "../random.h"
-#include "../settings.h"
+#include "../../../include/equation-generator/settings.h"
 #include "../../nodes/NodeType.h"
 #include "../../nodes/Node.h"
 

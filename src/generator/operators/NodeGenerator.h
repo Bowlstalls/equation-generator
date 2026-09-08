@@ -5,7 +5,7 @@
 
 #include "../../nodes/NodeType.h"
 #include "../random.h"
-#include "../settings.h"
+#include "../../../include/equation-generator/settings.h"
 #include "../../nodes/Node.h"
 
 namespace equation_generator {
