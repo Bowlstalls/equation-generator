@@ -90,7 +90,12 @@ void ValueNode::negate()
 
 void ValueNode::setBase(const float base)
 {
-  value = std::ceil(value) * base;
+  if (value > 0) {
+    value = std::ceil(value);
+  } else {
+    value = std::floor(value);
+  }
+  value *= base;
 }
 
 std::string ValueNode::toString() const
