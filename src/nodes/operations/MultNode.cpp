@@ -12,8 +12,8 @@ MultNode::MultNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(Nod
 
 MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::MultNode, 2)
 {
-  listInsert<MultNode>(NodeType::MultNode, this->list, std::move(lhs));
-  listInsert<MultNode>(NodeType::MultNode, this->list, std::move(rhs));
+  listInsert<MultNode>(NodeType::MultNode, list, std::move(lhs));
+  listInsert<MultNode>(NodeType::MultNode, list, std::move(rhs));
 }
 
 void MultNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
