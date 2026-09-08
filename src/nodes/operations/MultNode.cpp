@@ -1,0 +1,75 @@
+﻿#include "MultNode.h"
+
+#include <algorithm>
+
+#include "AddNode.h"
+using namespace equation_generator;
+
+MultNode::MultNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(NodeType::MultNode, 2)
+{
+  setList(std::move(list));
+}
+
+MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::MultNode, 2)
+{
+  addItem(std::move(lhs));
+  addItem(std::move(rhs));
+}
+
+void MultNode::addItem(std::unique_ptr<Node> item)
+{
+  listInsert<MultNode>(NodeType::MultNode, list, std::move(item));
+}
+
+void MultNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
+{
+  list.clear();
+  for (auto& item : newList) {
+    addItem(std::move(item));
+  }
+}
+
+static std::string getNext(const Node& node)
+{
+  std::string res = node.toString();
+  const auto opNode = dynamic_cast<const OperationNode*>(&node);
+  if ((opNode && opNode->priority < 2) || res[0] == '-') {
+    res = "(" + res + ")";
+  }
+  return res;
+}
+
+void MultNode::negate()
+{
+  if (list.empty()) {
+    return;
+  }
+  list[0]->negate();
+}
+
+void MultNode::setBase(const float base)
+{
+  for (const auto& item : list) {
+    item->setBase(base);
+  }
+}
+
+std::string MultNode::toString() const
+{
+  auto iterator = list.begin();
+  std::string res = getNext(**iterator);
+  ++iterator;
+  for (; iterator < list.end(); ++iterator) {
+    res += " * " + getNext(**iterator);
+  }
+  return res;
+}
+
+std::unique_ptr<Node> MultNode::clone() const
+{
+  std::vector<std::unique_ptr<Node>> newList;
+  for (auto& i : list) {
+    newList.push_back(i->clone());
+  }
+  return std::make_unique<MultNode>(std::move(newList));
+}
