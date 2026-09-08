@@ -9,10 +9,6 @@ int main()
 {
   const Settings settings {
     .degree = 2,
-    .structureSettings = StructureSettings {
-      .maxDepth = 8,
-      .maxWidth = 10
-    }
   };
 
   Generator generator(settings);
