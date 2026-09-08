@@ -12,15 +12,20 @@ AddNode::AddNode(std::vector<std::unique_ptr<Node>>&& list): OperationNode(NodeT
 
 AddNode::AddNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): OperationNode(NodeType::AddNode, 1)
 {
-  listInsert<AddNode>(NodeType::AddNode, list, std::move(lhs));
-  listInsert<AddNode>(NodeType::AddNode, list, std::move(rhs));
+  addItem(std::move(lhs));
+  addItem(std::move(rhs));
+}
+
+void AddNode::addItem(std::unique_ptr<Node> item)
+{
+  listInsert<AddNode>(NodeType::AddNode, list, std::move(item));
 }
 
 void AddNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
 {
   list.clear();
   for (auto& item : newList) {
-    listInsert<AddNode>(NodeType::AddNode, list, std::move(item));
+    addItem(std::move(item));
   }
 }
 
