@@ -19,12 +19,12 @@ namespace equation_generator {
     explicit NodeOptimizer(Generator& generator);
     NodeOptimizer(Random& random, const Settings& settings);
 
-    std::unique_ptr<Node> optimize(std::unique_ptr<Node> origin) const;
+    [[nodiscard]] std::unique_ptr<Node> optimize(std::unique_ptr<Node> origin) const;
 
   private:
-    std::unique_ptr<Node> optimizeValueNode(std::unique_ptr<Node> node) const;
-    std::unique_ptr<Node> optimizeAddNode(std::unique_ptr<Node> node) const;
-    std::unique_ptr<Node> optimizeMultNode(std::unique_ptr<Node> node) const;
+    [[nodiscard]] std::unique_ptr<Node> optimizeValueNode(std::unique_ptr<Node> node) const;
+    [[nodiscard]] std::unique_ptr<Node> optimizeAddNode(std::unique_ptr<Node> node) const;
+    [[nodiscard]] std::unique_ptr<Node> optimizeMultNode(std::unique_ptr<Node> node) const;
 
     inline static const std::map<NodeType, std::unique_ptr<Node>(NodeOptimizer::*)(std::unique_ptr<Node>) const> typeMap = {
       {NodeType::ValueNode, &NodeOptimizer::optimizeValueNode},
