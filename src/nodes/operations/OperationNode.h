@@ -17,19 +17,9 @@ namespace equation_generator {
     {
       if (item->type != type) {
         list.push_back(std::move(item));
+        return;
       }
       for (auto& castItem = static_cast<T&>(*item); auto& subitem : castItem.list) {
-        list.push_back(std::move(subitem));
-      }
-    };
-    template<typename T>
-    static void listInsertDynamic(std::vector<std::unique_ptr<Node>>& list, std::unique_ptr<Node> item)
-    {
-      auto* castItem = static_cast<T*>(*item);
-      if (!castItem) {
-        list.push_back(std::move(item));
-      }
-      for (auto& subitem : castItem->list) {
         list.push_back(std::move(subitem));
       }
     };
