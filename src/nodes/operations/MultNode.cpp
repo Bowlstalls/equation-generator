@@ -18,6 +18,7 @@ MultNode::MultNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): Operat
 
 void MultNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
 {
+  list.clear();
   for (auto& item : newList) {
     listInsert<MultNode>(NodeType::MultNode, list, std::move(item));
   }

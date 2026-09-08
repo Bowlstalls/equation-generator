@@ -18,6 +18,7 @@ AddNode::AddNode(std::unique_ptr<Node> lhs, std::unique_ptr<Node> rhs): Operatio
 
 void AddNode::setList(std::vector<std::unique_ptr<Node>>&& newList)
 {
+  list.clear();
   for (auto& item : newList) {
     listInsert<AddNode>(NodeType::AddNode, list, std::move(item));
   }
