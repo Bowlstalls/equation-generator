@@ -16,7 +16,6 @@ namespace equation_generator {
     Random& random;
     const Settings& settings;
 
-    explicit NodeOptimizer(Generator& generator);
     NodeOptimizer(Random& random, const Settings& settings);
 
     [[nodiscard]] std::unique_ptr<Node> optimize(std::unique_ptr<Node> origin) const;

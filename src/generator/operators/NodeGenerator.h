@@ -16,7 +16,6 @@ namespace equation_generator {
     Random& random;
     const Settings& settings;
 
-    explicit NodeGenerator(Generator& generator);
     NodeGenerator(Random& random, const Settings& settings);
 
     [[nodiscard]] std::unique_ptr<Node> generateOperation() const;

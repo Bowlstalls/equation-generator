@@ -10,16 +10,16 @@
 namespace equation_generator {
   class Generator {
   public:
-    Settings settings;
-    Random random;
-    NodeGenerator nodeGenerator;
-    NodeOptimizer nodeOptimizer;
-
     explicit Generator(const Settings& settings);
 
     Equation generate();
 
   private:
+    Settings settings;
+    Random random;
+    NodeGenerator nodeGenerator;
+    NodeOptimizer nodeOptimizer;
+
     Equation getRootEquation(int degree);
     void spill(Equation& equation);
   };
