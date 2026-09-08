@@ -24,7 +24,7 @@ std::unique_ptr<Node> NodeGenerator::generate(const NodeType& type, const int de
 
 std::unique_ptr<Node> NodeGenerator::generateValueNode(const int depth, const int width) const
 {
-  return std::make_unique<ValueNode>(settings.variableName, random.getValue(depth, width), random.getPower(depth));
+  return std::make_unique<ValueNode>(settings.variableName, random.getValue(depth, width), random.getPower());
 }
 
 std::unique_ptr<Node> NodeGenerator::generateAddNode(const int depth, int width) const

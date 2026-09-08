@@ -39,11 +39,10 @@ float Random::getRoot()
   return getInt(1, settings.valueSettings.roots);
 }
 
-float Random::getPower(const int depth)
+float Random::getPower()
 {
   const auto& [max, lowBias, negativeChance] = settings.valueSettings.powers;
   float res = getInt(1, max, lowBias);
-  res = std::round(res / depth);
   if (getBool(negativeChance)) {
     res *= -1;
   }

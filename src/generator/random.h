@@ -24,7 +24,7 @@ namespace equation_generator {
     bool getBool(float probability);
     float getValue(int depth = 1, int width = 1);
     float getRoot();
-    float getPower(int depth = 1);
+    float getPower();
     int choose(const std::vector<int>& weights);
     NodeType getOperation();
 
