@@ -67,11 +67,15 @@ int Random::choose(const std::vector<int>& weights)
 
 NodeType Random::getOperation()
 {
+  const std::map<Operation, NodeType> map {
+    {Operation::Add, NodeType::AddNode},
+    {Operation::Mult, NodeType::MultNode}
+  };
   std::vector<NodeType> keys;
   std::vector<int> values;
-  for (const auto& [fst, snd] : settings.structureSettings.operationWeights) {
-    keys.push_back(fst);
-    values.push_back(snd);
+  for (const auto& [op, weight] : settings.structureSettings.operationWeights) {
+    keys.push_back(map.at(op));
+    values.push_back(weight);
   }
   return keys.at(choose(values));
 }

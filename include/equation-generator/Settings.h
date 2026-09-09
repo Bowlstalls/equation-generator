@@ -1,8 +1,13 @@
 ﻿#ifndef EQUATION_GENERATOR_SETTINGS_H
 #define EQUATION_GENERATOR_SETTINGS_H
 #include <map>
+#include <random>
 
 namespace equation_generator {
+  enum class Operation {
+    Add,
+    Mult
+  };
   struct ValueSettings {
     struct Item {
       int max;
@@ -19,9 +24,9 @@ namespace equation_generator {
     int maxWidth = 4;
     float valueChance = 0.3;
     float rightSideChance = 0.2;
-    std::map<NodeType, int> operationWeights = {
-      {NodeType::AddNode, 2},
-      {NodeType::MultNode, 1}
+    std::map<Operation, int> operationWeights = {
+      {Operation::Add, 2},
+      {Operation::Mult, 1}
     };
   };
   struct Settings {
