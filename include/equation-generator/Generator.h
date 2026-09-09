@@ -2,8 +2,8 @@
 #define EQUATION_GENERATOR_GENERATOR_H
 
 #include "Equation.h"
-#include "../../src/generator/random.h"
-#include "settings.h"
+#include "../../src/generator/Random.h"
+#include "Settings.h"
 #include "../../src/generator/operators/NodeGenerator.h"
 #include "../../src/generator/operators/NodeOptimizer.h"
 
@@ -24,6 +24,5 @@ namespace equation_generator {
     void spill(Equation& equation);
   };
 }
-
 
 #endif

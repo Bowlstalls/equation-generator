@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "../../nodes/NodeType.h"
-#include "../random.h"
-#include "../../../include/equation-generator/settings.h"
+#include "../Random.h"
+#include "../../../include/equation-generator/Settings.h"
 #include "../../nodes/Node.h"
 
 namespace equation_generator {

@@ -4,7 +4,7 @@
 #include <random>
 
 #include "../nodes/NodeType.h"
-#include "../../include/equation-generator/settings.h"
+#include "../../include/equation-generator/Settings.h"
 
 namespace equation_generator {
   class Random {

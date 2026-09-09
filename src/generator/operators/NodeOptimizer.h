@@ -3,8 +3,8 @@
 #include <map>
 #include <memory>
 
-#include "../random.h"
-#include "../../../include/equation-generator/settings.h"
+#include "../Random.h"
+#include "../../../include/equation-generator/Settings.h"
 #include "../../nodes/NodeType.h"
 #include "../../nodes/Node.h"
 
