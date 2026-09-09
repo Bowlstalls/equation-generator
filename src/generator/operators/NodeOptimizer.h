@@ -9,8 +9,6 @@
 #include "../../nodes/Node.h"
 
 namespace equation_generator {
-  class Generator;
-
   class NodeOptimizer {
   public:
     Random& random;
