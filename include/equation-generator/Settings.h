@@ -30,7 +30,7 @@ namespace equation_generator {
     };
   };
   struct Settings {
-    const unsigned seed = std::random_device{}();
+    unsigned seed = std::random_device{}();
     std::string variableName = "x";
     int degree = 2;
 
