@@ -1,19 +1,13 @@
-﻿#ifndef EQUATION_GENERATOR_EXPRESSION_H
-#define EQUATION_GENERATOR_EXPRESSION_H
+#ifndef EQUATION_GENERATOR_EQUATION_H
+#define EQUATION_GENERATOR_EQUATION_H
+#include <string>
 #include <vector>
-
-#include "../../src/nodes/Node.h"
 
 namespace equation_generator {
   struct Equation {
+    std::string str;
     std::vector<float> roots;
-    std::unique_ptr<Node> lhs;
-    std::unique_ptr<Node> rhs;
     float score;
-
-    [[nodiscard]] std::string toString() const {
-      return lhs->toString() + " = " + rhs->toString();
-    }
   };
 }
 
