@@ -7,7 +7,7 @@
 #include "../../src/nodes/operations/MultNode.h"
 
 namespace equation_generator {
-  bool EquationVerifier::verify(const Equation& equation)
+  bool EquationVerifier::verify(const EquationData& equation)
   {
     for (auto& root : equation.roots) {
       if (calculate(*equation.lhs, root) != calculate(*equation.rhs, root)) {
