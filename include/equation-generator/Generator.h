@@ -1,27 +1,22 @@
-﻿#ifndef EQUATION_GENERATOR_GENERATOR_H
+#ifndef EQUATION_GENERATOR_GENERATOR_H
 #define EQUATION_GENERATOR_GENERATOR_H
 
-#include "Equation.h"
-#include "../../src/generator/Random.h"
-#include "Settings.h"
-#include "../../src/generator/operators/NodeGenerator.h"
-#include "../../src/generator/operators/NodeOptimizer.h"
+#include <memory>
+#include <equation-generator/Settings.h>
+#include <equation-generator/Equation.h>
 
 namespace equation_generator {
+  class GeneratorImpl;
+
   class Generator {
   public:
     explicit Generator(const Settings& settings);
+    ~Generator();
 
     Equation generate();
 
   private:
-    Settings settings;
-    Random random;
-    NodeGenerator nodeGenerator;
-    NodeOptimizer nodeOptimizer;
-
-    Equation getRootEquation(int degree);
-    void spill(Equation& equation);
+    std::unique_ptr<GeneratorImpl> impl;
   };
 }
 
