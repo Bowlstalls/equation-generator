@@ -7,7 +7,7 @@ namespace equation_generator {
 
   Generator::~Generator() = default;
 
-  Equation Generator::generate()
+  Equation Generator::generate() const
   {
     return impl->generate();
   }

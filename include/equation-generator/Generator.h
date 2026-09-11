@@ -13,7 +13,7 @@ namespace equation_generator {
     explicit Generator(const Settings& settings);
     ~Generator();
 
-    Equation generate();
+    [[nodiscard]] Equation generate() const;
 
   private:
     std::unique_ptr<GeneratorImpl> impl;
