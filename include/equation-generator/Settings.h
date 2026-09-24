@@ -24,7 +24,7 @@ namespace equation_generator {
     int maxWidth = 4;
     float valueChance = 0.3;
     float rightSideChance = 0.2;
-    OperationWeights operation_weights = OperationWeights{.add = 2, .mult = 1};
+    OperationWeights operationWeights = OperationWeights{.add = 2, .mult = 1};
   };
   struct Settings {
     unsigned seed = std::random_device{}();
