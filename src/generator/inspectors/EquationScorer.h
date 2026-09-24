@@ -2,7 +2,6 @@
 #define EQUATION_GENERATOR_EQUATIONSCORER_H
 
 #include <cmath>
-#include <iostream>
 #include <map>
 
 #include "../EquationData.h"
@@ -44,10 +43,6 @@ namespace equation_generator {
       }
       float getTotal() const
       {
-        std::cout << "depth: " << depth.getValue() << '\n';
-        std::cout << "width: " << width.getValue() << '\n';
-        std::cout << "coefficientSize: " << coefficientSize.getValue() << '\n';
-        std::cout << "rootSize: " << rootSize.getValue() << '\n';
         return depth.getValue() * width.getValue() * coefficientSize.getValue() * rootSize.getValue();
       }
     };
