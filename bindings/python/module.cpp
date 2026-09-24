@@ -2,6 +2,7 @@
 
 void bind_settings(pybind11::module_& m);
 void bind_generator(pybind11::module_& m);
+void bind_equation(pybind11::module_& m);
 
 PYBIND11_MODULE(eqgen, m)
 {
@@ -9,4 +10,5 @@ PYBIND11_MODULE(eqgen, m)
 
   bind_settings(m);
   bind_generator(m);
+  bind_equation(m);
 }
