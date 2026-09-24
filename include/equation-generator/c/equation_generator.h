@@ -41,7 +41,7 @@ typedef struct {
 
 typedef struct eq_generator eq_generator;
 
-eq_generator* eq_generator_create(void);
+eq_generator* eq_generator_create(const eq_settings* settings);
 void eq_generator_destroy(eq_generator* generator);
 
 #ifdef __cplusplus
