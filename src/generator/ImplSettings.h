@@ -11,8 +11,8 @@ namespace equation_generator {
     explicit ImplSettings(const Settings& settings): Settings(settings)
     {
       operationWeights = {
-        {NodeType::AddNode, settings.structureSettings.operation_weights.add},
-        {NodeType::MultNode, settings.structureSettings.operation_weights.mult}
+        {NodeType::AddNode, settings.structureSettings.operationWeights.add},
+        {NodeType::MultNode, settings.structureSettings.operationWeights.mult}
       };
     }
   };

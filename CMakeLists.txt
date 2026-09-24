@@ -20,4 +20,22 @@ target_include_directories(equation_generator PUBLIC
         ${PROJECT_SOURCE_DIR}/include
 )
 
+include(FetchContent)
+FetchContent_Declare(
+        pybind11
+        GIT_REPOSITORY https://github.com/pybind/pybind11.git
+        GIT_TAG v3.0.1
+)
+FetchContent_MakeAvailable(pybind11)
+
+pybind11_add_module(equation_generator_python
+        bindings/python/module.cpp
+        bindings/python/settings.cpp
+        bindings/python/generator.cpp
+        bindings/python/equation.cpp
+)
+target_link_libraries(equation_generator_python PRIVATE
+        equation_generator
+)
+
 add_subdirectory(tests)
