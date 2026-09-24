@@ -2,7 +2,7 @@
 #define EQUATION_GENERATOR_NODEFLATTENER_H
 #include <map>
 #include <memory>
-#include "../../nodes/operations/AddNode.h"
+#include "../../nodes/Node.h"
 
 namespace equation_generator {
   class NodeFlattener {

@@ -5,7 +5,7 @@
 #include "../../nodes/operations/MultNode.h"
 
 namespace equation_generator {
-  float EquationScorer::score(const Equation& equation)
+  float EquationScorer::score(const EquationData& equation)
   {
     Data data;
     data.setRoots(equation.roots);

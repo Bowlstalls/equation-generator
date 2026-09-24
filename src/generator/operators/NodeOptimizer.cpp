@@ -2,14 +2,11 @@
 
 #include <vector>
 
-#include "../Generator.h"
 #include "../../nodes/ValueNode.h"
 #include "../../nodes/operations/AddNode.h"
 #include "../../nodes/operations/MultNode.h"
 
 using namespace equation_generator;
-
-NodeOptimizer::NodeOptimizer(Generator& generator): random(generator.random), settings(generator.settings) {}
 
 NodeOptimizer::NodeOptimizer(Random& random, const Settings& settings): random(random), settings(settings) {}
 

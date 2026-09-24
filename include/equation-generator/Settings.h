@@ -1,6 +1,7 @@
 ﻿#ifndef EQUATION_GENERATOR_SETTINGS_H
 #define EQUATION_GENERATOR_SETTINGS_H
 #include <map>
+#include <random>
 
 namespace equation_generator {
   struct ValueSettings {
@@ -15,20 +16,20 @@ namespace equation_generator {
     Item powers = Item{.max = 2, .lowBias = 1, .negativeChance = 0};
   };
   struct StructureSettings {
+    struct OperationWeights {
+      int add;
+      int mult;
+    };
     int maxDepth = 3;
     int maxWidth = 4;
     float valueChance = 0.3;
     float rightSideChance = 0.2;
-    std::map<NodeType, int> operationWeights = {
-      {NodeType::AddNode, 2},
-      {NodeType::MultNode, 1}
-    };
+    OperationWeights operation_weights = OperationWeights{.add = 2, .mult = 1};
   };
   struct Settings {
-    const unsigned seed = std::random_device{}();
+    unsigned seed = std::random_device{}();
     std::string variableName = "x";
     int degree = 2;
-
     ValueSettings valueSettings = ValueSettings{};
     StructureSettings structureSettings = StructureSettings{};
   };

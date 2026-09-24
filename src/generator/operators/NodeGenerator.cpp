@@ -2,14 +2,12 @@
 
 #include <map>
 
-#include "../Generator.h"
 #include "../../nodes/ValueNode.h"
 #include "../../nodes/operations/AddNode.h"
 #include "../../nodes/operations/MultNode.h"
 
 using namespace equation_generator;
 
-NodeGenerator::NodeGenerator(Generator& generator): random(generator.random), settings(generator.settings) {}
 NodeGenerator::NodeGenerator(Random& random, const Settings& settings): random(random), settings(settings) {}
 
 std::unique_ptr<Node> NodeGenerator::generateOperation() const

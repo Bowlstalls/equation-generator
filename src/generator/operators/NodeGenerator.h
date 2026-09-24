@@ -4,19 +4,16 @@
 #include <memory>
 
 #include "../../nodes/NodeType.h"
-#include "../random.h"
-#include "../settings.h"
+#include "../Random.h"
+#include "../../../include/equation-generator/Settings.h"
 #include "../../nodes/Node.h"
 
 namespace equation_generator {
-  class Generator;
-
   class NodeGenerator {
   public:
     Random& random;
     const Settings& settings;
 
-    explicit NodeGenerator(Generator& generator);
     NodeGenerator(Random& random, const Settings& settings);
 
     [[nodiscard]] std::unique_ptr<Node> generateOperation() const;

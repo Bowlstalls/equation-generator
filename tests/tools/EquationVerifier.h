@@ -2,12 +2,12 @@
 #define EQUATION_GENERATOR_EQUATIONVERIFIER_H
 #include <map>
 
-#include "../../src/Equation.h"
+#include "../../src/generator/EquationData.h"
 
 namespace equation_generator {
   class EquationVerifier {
   public:
-    static bool verify(const Equation& equation);
+    static bool verify(const EquationData& equation);
 
   private:
     static int calculate(const Node& node, int root);

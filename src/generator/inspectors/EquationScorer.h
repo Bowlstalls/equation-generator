@@ -5,12 +5,12 @@
 #include <iostream>
 #include <map>
 
-#include "../../Equation.h"
+#include "../EquationData.h"
 
 namespace equation_generator {
   class EquationScorer {
   public:
-    static float score(const Equation& equation);
+    static float score(const EquationData& equation);
 
   private:
     inline static float degreeWeight = 1;
