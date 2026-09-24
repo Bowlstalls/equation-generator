@@ -1,8 +1,10 @@
 #include <pybind11/pybind11.h>
 
-namespace py = pybind11;
+void bind_settings(pybind11::module_& m);
 
-PYBIND11_MODULE(equation_generator, m)
+PYBIND11_MODULE(eqgen, m)
 {
   m.doc() = "Equation generator Python bindings";
+
+  bind_settings(m);
 }
