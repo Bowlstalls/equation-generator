@@ -1,6 +1,7 @@
 ﻿#ifndef EQUATION_GENERATOR_INODE_H
 #define EQUATION_GENERATOR_INODE_H
 #include <memory>
+#include <string>
 
 #include "NodeType.h"
 
