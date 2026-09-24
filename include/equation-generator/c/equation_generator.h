@@ -54,6 +54,7 @@ eq_generator* eq_generator_create(const eq_settings* settings);
 void eq_generator_destroy(eq_generator* generator);
 
 void eq_generator_generate(const eq_generator* generator, eq_equation* equation);
+void eq_equation_destroy(eq_equation* equation);
 
 #ifdef __cplusplus
 }

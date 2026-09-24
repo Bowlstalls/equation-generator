@@ -26,4 +26,10 @@ void eq_generator_generate(const eq_generator* generator, eq_equation* equation)
   const equation_generator::Equation res = generator->generator.generate();
   convert_equation(equation, res);
 }
+
+void eq_equation_destroy(eq_equation* equation)
+{
+  delete[] equation->roots;
+  delete[] equation->str;
+}
 }
