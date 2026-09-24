@@ -1,6 +1,7 @@
 ﻿#include "NodeFlattener.h"
 
 #include "../../nodes/ValueNode.h"
+#include "../../nodes/Operations/AddNode.h"
 #include "../../nodes/operations/MultNode.h"
 
 namespace equation_generator {
