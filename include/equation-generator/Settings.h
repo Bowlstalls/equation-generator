@@ -4,10 +4,6 @@
 #include <random>
 
 namespace equation_generator {
-  enum class Operation {
-    Add,
-    Mult
-  };
   struct ValueSettings {
     struct Item {
       int max;
@@ -20,20 +16,20 @@ namespace equation_generator {
     Item powers = Item{.max = 2, .lowBias = 1, .negativeChance = 0};
   };
   struct StructureSettings {
+    struct OperationWeights {
+      int add;
+      int mult;
+    };
     int maxDepth = 3;
     int maxWidth = 4;
     float valueChance = 0.3;
     float rightSideChance = 0.2;
-    std::map<Operation, int> operationWeights = {
-      {Operation::Add, 2},
-      {Operation::Mult, 1}
-    };
+    OperationWeights operation_weights = OperationWeights{.add = 2, .mult = 1};
   };
   struct Settings {
     unsigned seed = std::random_device{}();
     std::string variableName = "x";
     int degree = 2;
-
     ValueSettings valueSettings = ValueSettings{};
     StructureSettings structureSettings = StructureSettings{};
   };

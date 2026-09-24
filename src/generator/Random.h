@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <random>
 
+#include "ImplSettings.h"
 #include "../nodes/NodeType.h"
 #include "../../include/equation-generator/Settings.h"
 
@@ -10,13 +11,13 @@ namespace equation_generator {
   class Random {
   public:
     std::mt19937 engine;
-    const Settings& settings;
+    const ImplSettings& implSettings;
     const unsigned seed;
 
-    explicit Random(const Settings& settings):
-    engine(settings.seed),
-    settings(settings),
-    seed(settings.seed)
+    explicit Random(const ImplSettings& implSettings):
+    engine(implSettings.seed),
+    implSettings(implSettings),
+    seed(implSettings.seed)
     {}
 
     int getInt(int min, int max);

@@ -1,8 +1,7 @@
 ﻿#ifndef EQUATION_GENERATOR_GENERATORIMPL_H
 #define EQUATION_GENERATOR_GENERATORIMPL_H
 
-#include <equation-generator/Settings.h>
-
+#include "ImplSettings.h"
 #include "EquationData.h"
 #include "Random.h"
 #include "operators/NodeGenerator.h"
@@ -16,7 +15,7 @@ namespace equation_generator {
     Equation generate();
 
   private:
-    Settings settings;
+    ImplSettings settings;
     Random random;
     NodeGenerator nodeGenerator;
     NodeOptimizer nodeOptimizer;

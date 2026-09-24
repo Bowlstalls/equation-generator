@@ -25,7 +25,7 @@ bool Random::getBool(const float probability)
 
 float Random::getValue(const int depth, const int width)
 {
-  const auto& [max, lowBias, negativeChance] = settings.valueSettings.values;
+  const auto& [max, lowBias, negativeChance] = implSettings.valueSettings.values;
   float res = getInt(1, max, lowBias);
   res = std::pow(res, 1.0 / depth) / width;
   if (getBool(negativeChance)) {
@@ -36,12 +36,12 @@ float Random::getValue(const int depth, const int width)
 
 float Random::getRoot()
 {
-  return getInt(1, settings.valueSettings.roots);
+  return getInt(1, implSettings.valueSettings.roots);
 }
 
 float Random::getPower()
 {
-  const auto& [max, lowBias, negativeChance] = settings.valueSettings.powers;
+  const auto& [max, lowBias, negativeChance] = implSettings.valueSettings.powers;
   float res = getInt(1, max, lowBias);
   if (getBool(negativeChance)) {
     res *= -1;
@@ -67,14 +67,10 @@ int Random::choose(const std::vector<int>& weights)
 
 NodeType Random::getOperation()
 {
-  const std::map<Operation, NodeType> map {
-    {Operation::Add, NodeType::AddNode},
-    {Operation::Mult, NodeType::MultNode}
-  };
   std::vector<NodeType> keys;
   std::vector<int> values;
-  for (const auto& [op, weight] : settings.structureSettings.operationWeights) {
-    keys.push_back(map.at(op));
+  for (const auto& [op, weight] : implSettings.operationWeights) {
+    keys.push_back(op);
     values.push_back(weight);
   }
   return keys.at(choose(values));
