@@ -30,6 +30,9 @@ FetchContent_MakeAvailable(pybind11)
 
 pybind11_add_module(equation_generator_python
         bindings/python/module.cpp
+        bindings/python/settings.cpp
+        bindings/python/generator.cpp
+        bindings/python/equation.cpp
 )
 target_link_libraries(equation_generator_python PRIVATE
         equation_generator
