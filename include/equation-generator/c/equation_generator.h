@@ -1,6 +1,8 @@
 #ifndef EQUATION_GENERATOR_H
 #define EQUATION_GENERATOR_H
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -38,6 +40,13 @@ typedef struct {
   eq_value_settings value_settings;
   eq_structure_settings structure_settings;
 } eq_settings;
+
+typedef struct {
+  char* str;
+  float* roots;
+  size_t root_count;
+  float score;
+} eq_equation;
 
 typedef struct eq_generator eq_generator;
 
