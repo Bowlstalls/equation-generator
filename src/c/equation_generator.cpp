@@ -2,7 +2,7 @@
 #include <equation-generator/Generator.h>
 #include <equation-generator/Settings.h>
 
-#include "api_settings.h"
+#include "converters.h"
 
 struct eq_generator {
   equation_generator::Generator generator;
@@ -19,5 +19,11 @@ eq_generator* eq_generator_create(const eq_settings* settings)
 void eq_generator_destroy(eq_generator* generator)
 {
   delete generator;
+}
+
+void eq_generator_generate(const eq_generator* generator, eq_equation* equation)
+{
+  const equation_generator::Equation res = generator->generator.generate();
+  convert_equation(equation, res);
 }
 }
