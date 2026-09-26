@@ -1,8 +1,6 @@
 #include "converters.h"
 
-#include <cstring>
-
-static equation_generator::Settings convert_settings(const eq_settings& settings)
+equation_generator::Settings convert_settings(const eq_settings& settings)
 {
   equation_generator::Settings res;
 
@@ -42,9 +40,9 @@ static equation_generator::Settings convert_settings(const eq_settings& settings
   res.structureSettings.rightSideChance =
     settings.structure_settings.right_side_chance;
 
-  res.structureSettings.operation_weights.add =
+  res.structureSettings.operationWeights.add =
     settings.structure_settings.operation_weights.add;
-  res.structureSettings.operation_weights.mult =
+  res.structureSettings.operationWeights.mult =
     settings.structure_settings.operation_weights.mult;
 
   return res;
