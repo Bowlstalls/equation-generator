@@ -12,8 +12,8 @@ using namespace equation_generator;
 GeneratorImpl::GeneratorImpl(const Settings& settings):
 settings(settings),
 random(Random(this->settings)),
-nodeGenerator(random, settings),
-nodeOptimizer(random, settings)
+nodeGenerator(random, this->settings),
+nodeOptimizer(random, this->settings)
 {}
 
 Equation GeneratorImpl::generate()

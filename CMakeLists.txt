@@ -15,9 +15,16 @@ add_library(equation_generator STATIC
         src/generator/operators/NodeFlattener.cpp
         src/generator/inspectors/EquationScorer.cpp
 )
-
 target_include_directories(equation_generator PUBLIC
         ${PROJECT_SOURCE_DIR}/include
+)
+
+add_library(equation_generator_c SHARED
+        src/c/equation_generator.cpp
+        src/c/converters.cpp
+)
+target_link_libraries(equation_generator_c PUBLIC
+        equation_generator
 )
 
 include(FetchContent)
