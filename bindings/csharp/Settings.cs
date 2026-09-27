@@ -3,9 +3,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 namespace csharp {
-  public struct ValueSettings
-  {
-    public struct Item
+  public struct ValueSettings {
+    public struct Item()
     {
       public int Max
       {
@@ -35,9 +34,9 @@ namespace csharp {
         }
       }
       
-      internal Native.EqValueSettingsItem Native;
+      internal Native.EqValueSettingsItem Native = new();
     }
-    
+
     public float Base
     {
       get;
@@ -75,12 +74,20 @@ namespace csharp {
       }
     }
     
-    internal Native.EqValueSettings Native;
+    internal Native.EqValueSettings Native = new();
+
+    public ValueSettings()
+    {
+      Base = 1;
+      Values = new Item{Max = 20, LowBias = 2, NegativeChance = 0.3f};
+      Roots = new Item{Max = 10, LowBias = 1, NegativeChance = 0.3f};
+      Powers = new Item{Max = 2, LowBias = 1, NegativeChance = 0};
+    }
   }
 
   public struct StructureSettings
   {
-    public struct OperationWeightsType
+    public struct OperationWeightsType()
     {
       public int Add
       {
@@ -101,7 +108,7 @@ namespace csharp {
         }
       }
 
-      internal Native.EqOperationWeights Native;
+      internal Native.EqOperationWeights Native = new();
     }
 
     public int MaxDepth
@@ -150,11 +157,19 @@ namespace csharp {
       }
     }
 
-    internal Native.EqStructureSettings Native;
+    internal Native.EqStructureSettings Native = new();
+    
+    public StructureSettings()
+    {
+      MaxDepth = 3;
+      MaxWidth = 4;
+      ValueChance = 0.3f;
+      RightSideChance = 0.2f;
+      OperationWeights = new OperationWeightsType{Add = 2, Mult = 2};
+    }
   }
 
-  public unsafe class Settings
-  {
+  public unsafe class Settings {
     public uint Seed
     {
       get;
@@ -173,6 +188,7 @@ namespace csharp {
         if (Native.variable_name != null) {
           Marshal.FreeHGlobal((IntPtr)Native.variable_name);
         }
+
         var bytes = Encoding.UTF8.GetBytes(value);
         Native.variable_name = (byte*)Marshal.AllocHGlobal(bytes.Length);
         Marshal.Copy(bytes, 0, (IntPtr)Native.variable_name, bytes.Length);
@@ -208,6 +224,15 @@ namespace csharp {
     }
 
     internal Native.EqSettings Native;
+
+    public Settings()
+    {
+      Seed = (uint)Guid.NewGuid().GetHashCode();
+      VariableName = "x";
+      Degree = 2;
+      ValueSettings = new ValueSettings();
+      StructureSettings = new StructureSettings();
+    }
 
     ~Settings()
     {
