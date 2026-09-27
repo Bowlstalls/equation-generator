@@ -1,10 +1,11 @@
 ﻿#ifndef EQUATION_GENERATOR_SETTINGS_H
 #define EQUATION_GENERATOR_SETTINGS_H
-#include <map>
+
 #include <random>
+#include <equation-generator/Export.h>
 
 namespace equation_generator {
-  struct ValueSettings {
+  struct EQUATION_GENERATOR_API ValueSettings {
     struct Item {
       int max;
       float lowBias;

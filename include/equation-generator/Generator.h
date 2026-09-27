@@ -4,11 +4,12 @@
 #include <memory>
 #include <equation-generator/Settings.h>
 #include <equation-generator/Equation.h>
+#include <equation-generator/Export.h>
 
 namespace equation_generator {
   class GeneratorImpl;
 
-  class Generator {
+  class EQUATION_GENERATOR_API Generator {
   public:
     explicit Generator(const Settings& settings);
     ~Generator();

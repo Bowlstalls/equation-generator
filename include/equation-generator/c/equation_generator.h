@@ -2,6 +2,7 @@
 #define EQUATION_GENERATOR_H
 
 #include <stddef.h>
+#include <equation-generator/Export.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,15 +51,11 @@ typedef struct {
 
 typedef struct eq_generator eq_generator;
 
-__declspec(dllexport)
-eq_generator* eq_generator_create(const eq_settings* settings);
-__declspec(dllexport)
-void eq_generator_destroy(eq_generator* generator);
+EQUATION_GENERATOR_API eq_generator* eq_generator_create(const eq_settings* settings);
+EQUATION_GENERATOR_API void eq_generator_destroy(eq_generator* generator);
 
-__declspec(dllexport)
-void eq_generator_generate(const eq_generator* generator, eq_equation* equation);
-__declspec(dllexport)
-void eq_equation_destroy(eq_equation* equation);
+EQUATION_GENERATOR_API void eq_generator_generate(const eq_generator* generator, eq_equation* equation);
+EQUATION_GENERATOR_API void eq_equation_destroy(eq_equation* equation);
 
 #ifdef __cplusplus
 }
