@@ -56,14 +56,14 @@ namespace csharp {
 
     internal struct EqGenerator {}
 
-    [DllImport("equation_generator_c")]
+    [DllImport("equation_generator")]
     internal static extern EqGenerator* eq_generator_create(EqSettings* settings);
-    [DllImport("equation_generator_c")]
+    [DllImport("equation_generator")]
     internal static extern void eq_generator_destroy(EqGenerator* generator);
     
-    [DllImport("equation_generator_c")]
+    [DllImport("equation_generator")]
     internal static extern void eq_generator_generate(EqGenerator* generator, EqEquation* equation);
-    [DllImport("equation_generator_c")]
+    [DllImport("equation_generator")]
     internal static extern void eq_equation_destroy(EqEquation* equation);
   }
 }
