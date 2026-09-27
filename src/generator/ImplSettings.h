@@ -3,6 +3,7 @@
 #include <equation-generator/Settings.h>
 
 #include "../nodes/NodeType.h"
+#include <map>
 
 namespace equation_generator {
   struct ImplSettings : Settings {
