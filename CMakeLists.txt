@@ -1,48 +1,20 @@
 cmake_minimum_required(VERSION 3.31)
+
 project(equation_generator)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_library(equation_generator STATIC
-        src/nodes/ValueNode.cpp
-        src/nodes/operations/AddNode.cpp
-        src/nodes/operations/MultNode.cpp
-        src/generator/Generator.cpp
-        src/generator/GeneratorImpl.cpp
-        src/generator/Random.cpp
-        src/generator/operators/NodeGenerator.cpp
-        src/generator/operators/NodeOptimizer.cpp
-        src/generator/operators/NodeFlattener.cpp
-        src/generator/inspectors/EquationScorer.cpp
-)
-target_include_directories(equation_generator PUBLIC
-        ${PROJECT_SOURCE_DIR}/include
-)
+option(BUILD_PYTHON "Build Python bindings" ON)
+option(BUILD_TESTS "Build tests" OFF)
 
-add_library(equation_generator_c SHARED
-        src/c/equation_generator.cpp
-        src/c/converters.cpp
-)
-target_link_libraries(equation_generator_c PUBLIC
-        equation_generator
-)
+add_subdirectory(src)
 
-include(FetchContent)
-FetchContent_Declare(
-        pybind11
-        GIT_REPOSITORY https://github.com/pybind/pybind11.git
-        GIT_TAG v3.0.1
-)
-FetchContent_MakeAvailable(pybind11)
+message(STATUS "BUILD_PYTHON = ${BUILD_PYTHON}")
+if(BUILD_PYTHON)
+add_subdirectory(bindings/python)
+endif()
 
-pybind11_add_module(equation_generator_python
-        bindings/python/module.cpp
-        bindings/python/settings.cpp
-        bindings/python/generator.cpp
-        bindings/python/equation.cpp
-)
-target_link_libraries(equation_generator_python PRIVATE
-        equation_generator
-)
-
+if(BUILD_TESTS)
 add_subdirectory(tests)
+endif()
