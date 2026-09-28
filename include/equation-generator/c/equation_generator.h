@@ -51,6 +51,8 @@ typedef struct {
 
 typedef struct eq_generator eq_generator;
 
+EQUATION_GENERATOR_API void eq_set_defaults(eq_settings* settings);
+
 EQUATION_GENERATOR_API eq_generator* eq_generator_create(const eq_settings* settings);
 EQUATION_GENERATOR_API void eq_generator_destroy(eq_generator* generator);
 
