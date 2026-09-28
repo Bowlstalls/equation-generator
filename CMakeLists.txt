@@ -10,7 +10,6 @@ option(BUILD_TESTS "Build tests" OFF)
 
 add_subdirectory(src)
 
-message(STATUS "BUILD_PYTHON = ${BUILD_PYTHON}")
 if(BUILD_PYTHON)
 add_subdirectory(bindings/python)
 endif()
