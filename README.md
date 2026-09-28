@@ -10,6 +10,16 @@ A C++20 library for generating configurable mathematical equations.
 * **Reproducible generation** - Configure the generator's random seed.
 * **Multiple language interfaces** - Although the library is built primarily for C++, you can use the provided fully functional C# and Python wrappers, as well as the C API.
 
+## How generation works
+
+The generator works backwards from a set of predefined roots.
+
+First, it constructs a polynomial with those roots. It then generates an additional free expression and a copy of it. The copy is then flattened and negated before the terms are combined.
+
+This preserves the roots while allowing additional structure to be introduced into the equation.
+
+Roots are also randomly generated based on configuration. There will be an option to provide roots directly in the future.
+
 ## Example results
 
 The generator should theoretically be able to produce any equation expressible using the currently supported operations.
