@@ -12,7 +12,7 @@ namespace equation_generator {
   public:
     explicit GeneratorImpl(const Settings& settings);
 
-    Equation generate();
+    EquationData generate();
 
   private:
     ImplSettings settings;
