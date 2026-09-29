@@ -16,7 +16,7 @@ nodeGenerator(random, this->settings),
 nodeOptimizer(random, this->settings)
 {}
 
-Equation GeneratorImpl::generate()
+EquationData GeneratorImpl::generate()
 {
   EquationData res = getRootEquation(settings.degree);
   std::unique_ptr<Node> posTerm = nodeOptimizer.optimize(nodeGenerator.generateOperation());
@@ -34,7 +34,7 @@ Equation GeneratorImpl::generate()
   res.lhs = nodeOptimizer.optimize(std::move(total));
   res.score = EquationScorer::score(res);
   spill(res);
-  return res.toEquation();
+  return res;
 }
 
 static std::vector<float> getCoefficients(const std::vector<float>& roots)

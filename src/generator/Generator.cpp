@@ -9,6 +9,6 @@ namespace equation_generator {
 
   Equation Generator::generate() const
   {
-    return impl->generate();
+    return impl->generate().toEquation();
   }
 }
