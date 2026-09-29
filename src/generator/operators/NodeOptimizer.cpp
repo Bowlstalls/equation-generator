@@ -94,7 +94,7 @@ std::unique_ptr<Node> NodeOptimizer::optimizeMultNode(std::unique_ptr<Node> node
   }
   random.shuffle<std::unique_ptr<Node>>(newList);
   auto res = std::make_unique<MultNode>(std::move(newList));
-  if (value.value == -1) {
+  if (value.value == -1 && value.power == 0) {
     res->negate();
   }
   return res;
