@@ -31,3 +31,33 @@ jobs:
 
       - name: Build
         run: cmake --build build
+
+  build-python:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure
+        run: cmake -S . -B build -DBUILD_PYTHON=ON
+
+      - name: Build
+        run: cmake --build build
+
+  tests:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure
+        run: cmake -S . -B build -DBUILD_TESTS=ON
+
+      - name: Build
+        run: cmake --build build
+
+      - name: run
+        run: "build/tests/debug/test.exe"
+
